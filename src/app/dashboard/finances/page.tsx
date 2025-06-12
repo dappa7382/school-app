@@ -42,7 +42,7 @@ export default async function FinancesPage() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold">Laporan Keuangan</h1>
-      <p>Selamat datang, Anda memiliki akses.</p>
+      <p>Selamat datang, Anda memiliki akses ke data keuangan.</p>
       
       {error && (
         <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
