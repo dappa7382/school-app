@@ -43,7 +43,55 @@ export default async function FinancesPage() {
     <div className="p-6">
       <h1 className="text-3xl font-bold">Laporan Keuangan</h1>
       <p>Selamat datang, Anda memiliki akses.</p>
-      {/* Tampilkan data invoices disini */}
+      
+      {error && (
+        <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
+          Error loading financial data: {error.message}
+        </div>
+      )}
+      
+      <div className="mt-6">
+        <h2 className="text-xl font-semibold mb-4">Financial Overview</h2>
+        {invoices && invoices.length > 0 ? (
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Invoice ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {invoices.map((invoice: any) => (
+                  <tr key={invoice.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {invoice.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      ${invoice.amount || 'N/A'}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {invoice.status || 'Pending'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="bg-gray-50 p-8 rounded-lg text-center">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No Financial Data</h3>
+            <p className="text-gray-600">No invoices or financial records found.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
