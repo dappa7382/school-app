@@ -217,7 +217,7 @@ export default function AdminDashboard() {
 
         <footer className="py-8 px-10 bg-white border-t border-gray-200 text-center">
           <p className="text-sm text-gray-500">
-            © 2024 School Admin Dashboard. All rights reserved. Crafted with care.
+            © 2025 School Admin Dashboard. All rights reserved. Crafted with care.
           </p>
         </footer>
       </div>
