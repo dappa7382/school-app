@@ -18,11 +18,12 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - / (home page - public route)
-     * - /login (login page - public route)
-     * - /auth/callback (auth callback - public route)
-     * Feel free to modify this pattern to include more paths.
+     * - public assets
+     * Public routes that should be accessible without auth:
+     * - / (home page)
+     * - /login (login page)
+     * - /auth/callback (auth callback)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.).*)',
+    '/((?!_next/static|_next/image|favicon.ico|api|login|auth/callback|$).*)',
   ],
 }
