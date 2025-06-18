@@ -64,6 +64,7 @@ export default function SchedulesPage() {
   const [classFilter, setClassFilter] = useState('');
   const [dayFilter, setDayFilter] = useState('');
   const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const days: DayType[] = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
@@ -373,12 +374,39 @@ export default function SchedulesPage() {
     }
   };
 
+  // Add toggleMobileMenu function
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+      {/* Mobile Header */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b">
+        <h1 className="text-[var(--primary-text-color)] text-xl font-bold">Acme University</h1>
+        <button onClick={toggleMobileMenu} className="p-2">
+          <span className="material-icons">menu</span>
+        </button>
+      </div>
+
       <div className="flex h-full grow flex-col">
         <div className="flex flex-1">
-          {/* Add Sidebar */}
-          <aside className="w-72 bg-white border-r border-[var(--border-color)] p-6 flex flex-col justify-between">
+          {/* Mobile Sidebar (Drawer) */}
+          <aside className={`
+            fixed lg:relative top-0 left-0 h-full z-40
+            w-72 bg-white border-r border-[var(--border-color)] p-6
+            transform transition-transform duration-300 ease-in-out
+            lg:transform-none
+            ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          `}>
+            {/* Close button for mobile */}
+            <button 
+              onClick={toggleMobileMenu}
+              className="lg:hidden absolute top-4 right-4"
+            >
+              <span className="material-icons">close</span>
+            </button>
+
             <div className="flex flex-col gap-6">
               <h1 className="text-[var(--primary-text-color)] text-xl font-bold leading-normal">
                 Acme University
@@ -428,74 +456,103 @@ export default function SchedulesPage() {
             </div>
           </aside>
 
-          {/* Main content */}
-          <main className="flex-1 p-8 @container">
+          {/* Overlay for mobile sidebar */}
+          {isMobileMenuOpen && (
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={toggleMobileMenu}
+            />
+          )}
+
+          <main className="flex-1 p-4 lg:p-8 @container">
             <header className="mb-8">
               <h2 className="text-3xl font-bold">Class Schedules</h2>
               <p className="text-gray-600">Manage school class schedules and assignments</p>
             </header>
 
-            {/* Filters */}
-            <div className="mb-6 flex gap-4">
+            {/* Responsive Filters */}
+            <div className="mb-6 space-y-4">
               <input
                 type="search"
                 placeholder="Search schedules..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 rounded border p-2"
+                className="w-full rounded border p-2"
               />
-              <select
-                value={classFilter}
-                onChange={(e) => setClassFilter(e.target.value)}
-                className="w-48 rounded border p-2"
-              >
-                <option value="">All Classes</option>
-                {getUniqueClasses().map(kelas => (
-                  <option key={kelas} value={kelas}>{kelas}</option>
-                ))}
-              </select>
-              <select
-                value={dayFilter}
-                onChange={(e) => setDayFilter(e.target.value)}
-                className="w-48 rounded border p-2"
-              >
-                <option value="">All Days</option>
-                {days.map(day => (
-                  <option key={day} value={day}>{day}</option>
-                ))}
-              </select>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <select
+                  value={classFilter}
+                  onChange={(e) => setClassFilter(e.target.value)}
+                  className="w-full sm:w-48 rounded border p-2"
+                >
+                  <option value="">All Classes</option>
+                  {getUniqueClasses().map(kelas => (
+                    <option key={kelas} value={kelas}>{kelas}</option>
+                  ))}
+                </select>
+                <select
+                  value={dayFilter}
+                  onChange={(e) => setDayFilter(e.target.value)}
+                  className="w-full sm:w-48 rounded border p-2"
+                >
+                  <option value="">All Days</option>
+                  {days.map(day => (
+                    <option key={day} value={day}>{day}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
-            {/* Add filter tags */}
-            {(classFilter || dayFilter) && (
-              <div className="flex gap-2 mb-4">
-                {classFilter && (
-                  <span className="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm">
-                    Class: {classFilter}
-                    <button 
-                      onClick={() => setClassFilter('')}
-                      className="ml-2 text-blue-600 hover:text-blue-800"
-                    >
-                      <span className="material-icons text-sm">close</span>
-                    </button>
-                  </span>
-                )}
-                {dayFilter && (
-                  <span className="inline-flex items-center bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm">
-                    Day: {dayFilter}
-                    <button 
-                      onClick={() => setDayFilter('')}
-                      className="ml-2 text-blue-600 hover:text-blue-800"
-                    >
-                      <span className="material-icons text-sm">close</span>
-                    </button>
-                  </span>
-                )}
-              </div>
-            )}
+            {/* Mobile Card View */}
+            <div className="block lg:hidden">
+              {loading ? (
+                <div className="text-center p-8">Loading...</div>
+              ) : (
+                <div className="space-y-4">
+                  {filteredSchedules.map((schedule) => (
+                    <div key={schedule.id} className="bg-white rounded-lg border p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-medium">{schedule.mata_pelajaran?.nama_mapel}</h3>
+                          <p className="text-sm text-gray-600">Class: {schedule.kelas}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => openEditModal(schedule)}
+                            className="text-blue-600 hover:text-blue-800"
+                          >
+                            <span className="material-icons">edit</span>
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(schedule.id)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <span className="material-icons">delete</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                          <p className="text-gray-600">Day</p>
+                          <p>{schedule.hari}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Time</p>
+                          <p>{schedule.jam_mulai} - {schedule.jam_selesai}</p>
+                        </div>
+                        <div className="col-span-2">
+                          <p className="text-gray-600">Teacher</p>
+                          <p>{schedule.guru?.nama}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-            {/* Schedules Table */}
-            <div className="overflow-x-auto rounded-lg border">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto rounded-lg border">
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
@@ -547,8 +604,8 @@ export default function SchedulesPage() {
 
       {/* Modal for Create/Edit */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-bold mb-4">
               {isEditing ? 'Edit Schedule' : 'Create Schedule'}
             </h3>
@@ -640,8 +697,8 @@ export default function SchedulesPage() {
 
       {/* Add Subject Modal */}
       {isSubjectModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-bold mb-4">Create New Subject</h3>
             <form onSubmit={handleCreateSubject} className="space-y-4">
               <div>

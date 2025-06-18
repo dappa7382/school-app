@@ -79,6 +79,7 @@ export default function UsersPage() {
     alamat: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -546,12 +547,38 @@ export default function UsersPage() {
     );
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+      {/* Mobile Header */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b">
+        <h1 className="text-[var(--primary-text-color)] text-xl font-bold">Acme University</h1>
+        <button onClick={toggleMobileMenu} className="p-2">
+          <span className="material-icons">menu</span>
+        </button>
+      </div>
+
       <div className="flex h-full grow flex-col">
         <div className="flex flex-1">
-          {/* Sidebar */}
-          <aside className="w-72 bg-white border-r border-[var(--border-color)] p-6 flex flex-col justify-between">
+          {/* Mobile Sidebar (Drawer) */}
+          <aside className={`
+            fixed lg:relative top-0 left-0 h-full z-40
+            w-72 bg-white border-r border-[var(--border-color)] p-6
+            transform transition-transform duration-300 ease-in-out
+            lg:transform-none
+            ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          `}>
+            {/* Close button for mobile */}
+            <button 
+              onClick={toggleMobileMenu}
+              className="lg:hidden absolute top-4 right-4"
+            >
+              <span className="material-icons">close</span>
+            </button>
+
             <div className="flex flex-col gap-6">
               <h1 className="text-[var(--primary-text-color)] text-xl font-bold leading-normal">Acme University</h1>
               <nav className="flex flex-col gap-2">
@@ -604,29 +631,96 @@ export default function UsersPage() {
             </div>
           </aside>
 
-          {/* Main Content */}
-          <main className="flex-1 p-8 @container">
+          {/* Overlay for mobile sidebar */}
+          {isMobileMenuOpen && (
+            <div 
+              className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+              onClick={toggleMobileMenu}
+            />
+          )}
+
+          <main className="flex-1 p-4 lg:p-8 @container">
             <header className="mb-8">
               <h2 className="text-[var(--primary-text-color)] text-3xl font-bold leading-tight">Users</h2>
               <p className="text-[var(--secondary-text-color)] text-sm mt-1">Manage user accounts, roles, and access permissions.</p>
             </header>
 
-            {/* Search Bar */}
+            {/* Responsive Search Bar */}
             <div className="mb-6">
               <label className="relative flex items-center">
                 <span className="material-icons absolute left-3 text-[var(--secondary-text-color)]">search</span>
                 <input
                   type="search"
-                  className="form-input w-full rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] h-12 pl-10 pr-4 text-sm text-[var(--primary-text-color)] placeholder:text-[var(--secondary-text-color)] focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)] transition-shadow duration-200"
-                  placeholder="Search users by name, email, or role..."
+                  className="form-input w-full rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] h-12 pl-10 pr-4 text-sm"
+                  placeholder="Search users..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
             </div>
 
-            {/* Users Table */}
-            <div className="overflow-x-auto rounded-lg border border-[var(--border-color)] bg-white shadow-sm">
+            {/* Mobile Card View */}
+            <div className="block lg:hidden">
+              {loading ? (
+                <div className="text-center p-8">Loading...</div>
+              ) : (
+                <div className="space-y-4">
+                  {displayedUsers.map((user) => (
+                    <div key={user.id} className="bg-white rounded-lg border p-4 shadow-sm">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-medium">{user.username}</h3>
+                          <p className="text-sm text-gray-600">{user.role.nama_role}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => openEditModal(user)}
+                            className="text-blue-600 hover:text-blue-800"
+                          >
+                            <span className="material-icons">edit</span>
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(user.id)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <span className="material-icons">delete</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 gap-2 text-sm">
+                        {user.siswa && (
+                          <>
+                            <div>
+                              <p className="text-gray-600">NIS</p>
+                              <p>{user.siswa.nis}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">Class</p>
+                              <p>{user.siswa.kelas}</p>
+                            </div>
+                          </>
+                        )}
+                        {user.guru && (
+                          <>
+                            <div>
+                              <p className="text-gray-600">NIP</p>
+                              <p>{user.guru.nip}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-600">Specialization</p>
+                              <p>{user.guru.spesialisasi || '-'}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto rounded-lg border">
               {loading ? (
                 <div className="text-center p-8">Loading...</div>
               ) : (
@@ -668,25 +762,28 @@ export default function UsersPage() {
               )}
             </div>
 
-            {/* Pagination */}
-            <div className="mt-6 flex justify-between items-center">
-              <p className="text-sm text-[var(--secondary-text-color)]">
+            {/* Mobile Pagination */}
+            <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <p className="text-sm text-[var(--secondary-text-color)] text-center sm:text-left">
                 Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredUsers.length)} of {filteredUsers.length} users
               </p>
               <div className="flex items-center gap-2">
                 <button 
-                  className="p-2 rounded-md hover:bg-[var(--accent-color)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 rounded-md hover:bg-[var(--accent-color)] disabled:opacity-50"
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => prev - 1)}
                 >
-                  <span className="material-icons text-lg text-[var(--secondary-text-color)]">chevron_left</span>
+                  <span className="material-icons">chevron_left</span>
                 </button>
+                <span className="text-sm">
+                  Page {currentPage} of {totalPages}
+                </span>
                 <button 
-                  className="p-2 rounded-md hover:bg-[var(--accent-color)]"
+                  className="p-2 rounded-md hover:bg-[var(--accent-color)] disabled:opacity-50"
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(prev => prev + 1)}
                 >
-                  <span className="material-icons text-lg text-[var(--secondary-text-color)]">chevron_right</span>
+                  <span className="material-icons">chevron_right</span>
                 </button>
               </div>
             </div>
@@ -694,10 +791,10 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {/* Add User/Edit Modal */}
+      {/* Responsive Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b">
               <h3 className="text-lg font-semibold">
                 {isEditing ? 'Edit User' : 'Add New User'}
