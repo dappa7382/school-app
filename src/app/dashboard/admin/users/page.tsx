@@ -80,6 +80,7 @@ export default function UsersPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -551,6 +552,10 @@ export default function UsersPage() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
   return (
     <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
       {/* Mobile Header */}
@@ -568,8 +573,9 @@ export default function UsersPage() {
             fixed lg:relative top-0 left-0 h-full z-40
             w-72 bg-white border-r border-[var(--border-color)] p-6
             transform transition-transform duration-300 ease-in-out
-            lg:transform-none
+            lg:transform-none lg:transition-[width]
             ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            ${isSidebarCollapsed ? 'lg:w-20' : 'lg:w-72'}
           `}>
             {/* Close button for mobile */}
             <button 
@@ -579,40 +585,40 @@ export default function UsersPage() {
               <span className="material-icons">close</span>
             </button>
 
+            {/* Collapse button for desktop */}
+            <button 
+              onClick={toggleSidebar}
+              className="hidden lg:flex absolute -right-3 top-6 bg-white border rounded-full p-1 cursor-pointer"
+            >
+              <span className="material-icons text-gray-600">
+                {isSidebarCollapsed ? 'chevron_right' : 'chevron_left'}
+              </span>
+            </button>
+
             <div className="flex flex-col gap-6">
-              <h1 className="text-[var(--primary-text-color)] text-xl font-bold leading-normal">Acme University</h1>
+              <h1 className={`text-[var(--primary-text-color)] text-xl font-bold leading-normal ${isSidebarCollapsed ? 'hidden' : 'block'}`}>
+                Acme University
+              </h1>
               <nav className="flex flex-col gap-2">
-                <a 
-                  className="sidebar-link cursor-pointer" 
-                  onClick={navigateToDashboard}
-                >
+                <a className="sidebar-link cursor-pointer" onClick={navigateToDashboard}>
                   <span className="material-icons">dashboard</span>
-                  <span className="text-sm">Dashboard</span>
+                  <span className={`text-sm ${isSidebarCollapsed ? 'hidden' : 'block'}`}>Dashboard</span>
                 </a>
                 <a className="sidebar-link active" href="#">
                   <span className="material-icons">manage_accounts</span>
-                  <span className="text-sm">Users</span>
+                  <span className={`text-sm ${isSidebarCollapsed ? 'hidden' : 'block'}`}>Users</span>
                 </a>
-                <a 
-                  className="sidebar-link cursor-pointer" 
-                  onClick={navigateToStudents}
-                >
+                <a className="sidebar-link cursor-pointer" onClick={navigateToStudents}>
                   <span className="material-icons">school</span>
-                  <span className="text-sm">Students</span>
+                  <span className={`text-sm ${isSidebarCollapsed ? 'hidden' : 'block'}`}>Students</span>
                 </a>
-                <a 
-                  className="sidebar-link cursor-pointer" 
-                  onClick={navigateToTeachers}
-                >
+                <a className="sidebar-link cursor-pointer" onClick={navigateToTeachers}>
                   <span className="material-icons">groups</span>
-                  <span className="text-sm">Teachers</span>
+                  <span className={`text-sm ${isSidebarCollapsed ? 'hidden' : 'block'}`}>Teachers</span>
                 </a>
-                <a 
-                  className="sidebar-link cursor-pointer" 
-                  onClick={navigateToSchedules}
-                >
+                <a className="sidebar-link cursor-pointer" onClick={navigateToSchedules}>
                   <span className="material-icons">schedule</span>
-                  <span className="text-sm">Schedules</span>
+                  <span className={`text-sm ${isSidebarCollapsed ? 'hidden' : 'block'}`}>Schedules</span>
                 </a>
               </nav>
             </div>
@@ -639,7 +645,7 @@ export default function UsersPage() {
             />
           )}
 
-          <main className="flex-1 p-4 lg:p-8 @container">
+          <main className={`flex-1 p-4 lg:p-8 @container transition-[margin] duration-300 ${isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-0'}`}>
             <header className="mb-8">
               <h2 className="text-[var(--primary-text-color)] text-3xl font-bold leading-tight">Users</h2>
               <p className="text-[var(--secondary-text-color)] text-sm mt-1">Manage user accounts, roles, and access permissions.</p>
