@@ -463,7 +463,7 @@ export default function GuruDashboard() {
         </header>
 
         <main className="px-2 sm:px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-4 sm:py-8 bg-[#F3F4F6]">
-          <div className="layout-content-container flex flex-col max-w-5xl flex-1 gap-4 sm:gap-8">
+          <div className="layout-content-container flex flex-col w-full max-w-5xl flex-1 gap-4 sm:gap-8">
             {loading ? (
               <div className="text-center">Loading...</div>
             ) : profile ? (
@@ -474,7 +474,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-4 sm:gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-20 w-20 sm:min-h-24 sm:w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '5rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
