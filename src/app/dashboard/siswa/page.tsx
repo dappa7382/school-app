@@ -188,7 +188,7 @@ export default function SiswaDashboard() {
     {
       type: 'Announcement',
       title: 'Lomba Karya Ilmiah',
-      content: 'Pendaftaran lomba karya ilmiah tingkat nasional telah dibuka. Deadline pendaftaran 30 Maret 2024.',
+      content: 'Pendaftaran lomba karya ilmiah tingkat nasional telah dibuka. Deadline pendaftaran 30 Maret 2025.',
       image: 'https://source.unsplash.com/800x400/?science,research'
     }
   ];
