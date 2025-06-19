@@ -367,13 +367,13 @@ export default function SiswaDashboard() {
                   <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">Nama Lengkap</p>
-                      <p className="font-medium">{profile?.nama}</p>
+                      <p className="font-medium">{profile?.nama || '-'}</p>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">NIS</p>
-                      <p className="font-medium">{profile?.nis}</p>
+                      <p className="font-medium">{profile?.nis || '-'}</p>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">Kelas</p>
-                      <p className="font-medium">{profile?.kelas}</p>
+                      <p className="font-medium">{profile?.kelas || '-'}</p>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">Gender</p>
                       <p className="font-medium">{profile?.gender}</p>
