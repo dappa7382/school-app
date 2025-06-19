@@ -366,21 +366,30 @@ export default function SiswaDashboard() {
                   {/* Expandable Detail Section */}
                   <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-[var(--text-secondary)]">Nama Lengkap</p>
+                      <p className="font-medium">{profile?.nama}</p>
+                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-[var(--text-secondary)]">NIS</p>
+                      <p className="font-medium">{profile?.nis}</p>
+                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-[var(--text-secondary)]">Kelas</p>
+                      <p className="font-medium">{profile?.kelas}</p>
+                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">Gender</p>
                       <p className="font-medium">{profile?.gender}</p>
                     </div>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-[var(--text-secondary)]">Birth Place</p>
+                      <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
                       <p className="font-medium">{profile?.tempat_lahir || '-'}</p>
                     </div>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-[var(--text-secondary)]">Date of Birth</p>
+                      <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
                       <p className="font-medium">
                         {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
                       </p>
                     </div>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg md:col-span-2">
-                      <p className="text-sm text-[var(--text-secondary)]">Address</p>
+                      <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
                       <p className="font-medium">{profile?.alamat || '-'}</p>
                     </div>
                   </div>
