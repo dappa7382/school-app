@@ -182,7 +182,7 @@ export default function SiswaDashboard() {
     {
       type: 'Important',
       title: 'Ujian Tengah Semester',
-      content: 'UTS akan dilaksanakan pada tanggal 15-20 Maret 2024. Harap mempersiapkan diri dengan baik.',
+      content: 'UTS akan dilaksanakan pada tanggal 15-20 Maret 2025. Harap mempersiapkan diri dengan baik.',
       image: 'https://source.unsplash.com/800x400/?school,exam'
     },
     {
@@ -334,20 +334,20 @@ export default function SiswaDashboard() {
           </div>
         </header>
 
-        <main className="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-8 bg-[var(--secondary-color)]">
-          <div className="layout-content-container flex flex-col max-w-5xl flex-1 gap-8">
+        <main className="px-2 sm:px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-4 sm:py-8 bg-[var(--secondary-color)]">
+          <div className="layout-content-container flex flex-col w-full max-w-5xl flex-1 gap-4 sm:gap-8">
             {loading ? (
               <div className="text-center">Loading...</div>
             ) : profile ? (
               <>
-                <section className="bg-white p-6 rounded-xl shadow-lg @container">
-                  <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-start">
-                    <div className="flex items-start gap-6">
-                      <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                        <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
+                <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg @container">
+                  <div className="flex w-full flex-col gap-4 sm:gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-start">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                      <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
+                        <span className="material-icons-outlined text-gray-400" style={{ fontSize: '5rem' }}>account_circle</span>
                       </div>
-                      <div className="flex flex-col justify-center">
-                        <h2 className="text-[var(--text-primary)] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile?.nama}</h2>
+                      <div className="flex flex-col justify-center items-center sm:items-start">
+                        <h2 className="text-[var(--text-primary)] text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight text-center sm:text-left">{profile?.nama}</h2>
                         <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">NIS: {profile?.nis}</p>
                         <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">Kelas {profile?.kelas}</p>
                         <button
@@ -364,7 +364,7 @@ export default function SiswaDashboard() {
                   </div>
 
                   {/* Expandable Detail Section */}
-                  <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm text-[var(--text-secondary)]">Gender</p>
                       <p className="font-medium">{profile?.gender}</p>
@@ -386,9 +386,9 @@ export default function SiswaDashboard() {
                   </div>
                 </section>
 
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-[var(--text-primary)] text-xl md:text-2xl font-bold leading-tight tracking-tight">
+                <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
+                    <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight">
                       Today's Schedule
                     </h3>
                     <p className="text-[var(--text-secondary)] text-sm font-medium">
@@ -396,7 +396,7 @@ export default function SiswaDashboard() {
                     </p>
                   </div>
                   <div className="@container">
-                    <div className="overflow-x-auto rounded-lg border border-[var(--border-color)]">
+                    <div className="overflow-x-auto -mx-4 sm:mx-0 sm:rounded-lg border border-[var(--border-color)]">
                       <table className="w-full">
                         <thead className="bg-gray-50">
                           <tr>
@@ -445,9 +445,9 @@ export default function SiswaDashboard() {
                   </div>
                 </section>
 
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <h3 className="text-[var(--text-primary)] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4">Quick Actions</h3>
-                  <div className="flex flex-col sm:flex-row gap-4">
+                <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                  <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4">Quick Actions</h3>
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <button 
                       onClick={handleViewGrades}
                       className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[var(--primary-color)] text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50"
@@ -466,14 +466,14 @@ export default function SiswaDashboard() {
                   
                   {showNilai && (
                     <div className="rounded-lg border border-[#E5E7EB] overflow-hidden mt-4">
-                      <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
+                      <div className="bg-gray-50 px-3 sm:px-4 py-3 border-b border-[#E5E7EB]">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                           <h4 className="text-[#1F2937] text-sm font-semibold">Nilai Akademik</h4>
-                          <div className="flex gap-2 text-sm">
+                          <div className="flex flex-wrap gap-2 text-sm w-full sm:w-auto">
                             <select
                               value={selectedSemester}
                               onChange={(e) => setSelectedSemester(e.target.value as Semester | 'all')}
-                              className="border rounded px-2 py-1"
+                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
                             >
                               <option value="all">Semua Semester</option>
                               <option value="Ganjil">Ganjil</option>
@@ -482,7 +482,7 @@ export default function SiswaDashboard() {
                             <select
                               value={selectedYear}
                               onChange={(e) => setSelectedYear(e.target.value)}
-                              className="border rounded px-2 py-1"
+                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
                             >
                               <option value="all">Semua Tahun</option>
                               {availableYears.map((year) => (
@@ -492,7 +492,7 @@ export default function SiswaDashboard() {
                           </div>
                         </div>
                       </div>
-                      <div className="overflow-x-auto">
+                      <div className="overflow-x-auto -mx-4 sm:mx-0">
                         <table className="w-full">
                           <thead className="bg-gray-50">
                             <tr>
@@ -557,20 +557,20 @@ export default function SiswaDashboard() {
                   )}
                 </section>
 
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <h3 className="text-[var(--text-primary)] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-6">School Updates</h3>
-                  <div className="space-y-6">
+                <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                  <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4 sm:mb-6">School Updates</h3>
+                  <div className="space-y-4 sm:space-y-6">
                     {announcements.map((announcement, index) => (
-                      <div key={index} className="flex flex-col md:flex-row items-start gap-4 p-4 border border-[var(--border-color)] rounded-lg hover:shadow-md transition-shadow">
-                        <div className="w-full md:w-2/3 flex flex-col gap-1">
+                      <div key={index} className="flex flex-col gap-3 p-3 sm:p-4 border border-[var(--border-color)] rounded-lg hover:shadow-md transition-shadow">
+                        <div className="w-full flex flex-col gap-1">
                           <p className={`${announcement.type === 'Important' ? 'text-[#4F46E5]' : 'text-green-600'} text-xs font-semibold uppercase tracking-wider`}>
                             {announcement.type}
                           </p>
-                          <h4 className="text-[#1F2937] text-lg font-semibold leading-tight">{announcement.title}</h4>
+                          <h4 className="text-[#1F2937] text-base sm:text-lg font-semibold leading-tight">{announcement.title}</h4>
                           <p className="text-[#6B7280] text-sm font-normal leading-relaxed">{announcement.content}</p>
                         </div>
                         <div 
-                          className="w-full md:w-1/3 bg-center bg-no-repeat aspect-video bg-cover rounded-md" 
+                          className="w-full aspect-video bg-center bg-no-repeat bg-cover rounded-md" 
                           style={{ backgroundImage: `url("${announcement.image}")` }}
                         ></div>
                       </div>
@@ -584,8 +584,8 @@ export default function SiswaDashboard() {
           </div>
         </main>
 
-        <footer className="text-center py-6 border-t border-[var(--border-color)] bg-[var(--secondary-color)]">
-          <p className="text-sm text-[var(--text-secondary)]">© 2024 CampusConnect. All rights reserved.</p>
+        <footer className="text-center py-4 sm:py-6 border-t border-[var(--border-color)] bg-[var(--secondary-color)]">
+          <p className="text-sm text-[var(--text-secondary)]">© 2025 CampusConnect. All rights reserved.</p>
         </footer>
       </div>
     </div>
