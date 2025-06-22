@@ -530,7 +530,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '6rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
