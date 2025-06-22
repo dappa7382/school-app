@@ -180,7 +180,7 @@ export default function GuruDashboard() {
 
   const handleViewSchedule = async () => {
     try {
-      const query = supabase
+      let query = supabase
         .from('jadwal_pelajaran')
         .select(`
           id,
@@ -198,13 +198,13 @@ export default function GuruDashboard() {
         `)
         .eq('guru_id', profile?.id);
 
-      // Apply day filter if selected
+      // Hanya tambahkan filter hari jika ada hari yang dipilih
       if (selectedDay) {
-        query.eq('hari', selectedDay);
+        query = query.eq('hari', selectedDay);
       }
 
-      // Apply ordering
-      query.order('hari').order('jam_mulai');
+      // Tetap urutkan berdasarkan hari dan jam
+      query = query.order('hari').order('jam_mulai');
       
       const { data, error } = await query;
       
@@ -530,7 +530,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -627,7 +627,7 @@ export default function GuruDashboard() {
                                 </td>
                               </tr>
                             ))
-                          ) : (
+                          : (
                             <tr>
                               <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
                                 No classes scheduled for {getCurrentDayName().toLowerCase()}
@@ -838,7 +838,7 @@ export default function GuruDashboard() {
                                 onChange={(e) => {
                                   const newDay = e.target.value as Hari | '';
                                   setSelectedDay(newDay);
-                                  setTimeout(() => handleViewSchedule(), 0);
+                                  handleViewSchedule(); // Langsung panggil tanpa setTimeout
                                 }}
                                 className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
