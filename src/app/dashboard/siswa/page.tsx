@@ -363,7 +363,7 @@ export default function SiswaDashboard() {
                     <div className="flex items-start gap-4">
                       <div className="shrink-0">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '6rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                       </div>
                       <div className="flex-1">
@@ -393,22 +393,12 @@ export default function SiswaDashboard() {
                             <div className="bg-gray-50 rounded-lg p-4">
                               <div className="space-y-3">
                                 <div>
-                                  <p className="text-sm text-[var(--text-secondary)]">Gender</p>
-                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.gender}</p>
+                                  <p className="text-sm text-[var(--text-secondary)]">NIS</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.nis}</p>
                                 </div>
                                 <div>
-                                  <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
-                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
-                                  <p className="mt-1 text-sm text-[var(--text-primary)]">
-                                    {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                  </p>
-                                </div>
-                                <div>
-                                  <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
-                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                                  <p className="text-sm text-[var(--text-secondary)]">Kelas</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">Kelas {profile?.kelas}</p>
                                 </div>
                               </div>
                             </div>
@@ -448,36 +438,10 @@ export default function SiswaDashboard() {
                                 </div>
                               </div>
                             </div>
-                            <div className="mt-6 grid grid-cols-2 gap-4">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
-                                  <span className="text-sm text-[var(--text-secondary)]">Gender</span>
-                                </div>
-                                <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
-                                  <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
-                                </div>
-                                <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
-                                  <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
-                                </div>
-                                <p className="mt-1 text-[var(--text-primary)]">
-                                  {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                </p>
-                              </div>
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
-                                  <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
-                                </div>
-                                <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                            <div className="mt-6">
+                              <div className="flex items-center gap-4">
+                                <p className="text-[var(--text-primary)]">NIS: {profile?.nis}</p>
+                                <p className="text-[var(--text-primary)]">Kelas {profile?.kelas}</p>
                               </div>
                             </div>
                           </div>
@@ -505,24 +469,7 @@ export default function SiswaDashboard() {
                                     <td className="py-3 text-sm text-[var(--text-secondary)]">Kelas</td>
                                     <td className="py-3 text-sm text-[var(--text-primary)] font-medium">Kelas {profile?.kelas}</td>
                                   </tr>
-                                  <tr>
-                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Gender</td>
-                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.gender}</td>
-                                  </tr>
-                                  <tr>
-                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Tempat Lahir</td>
-                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.tempat_lahir || '-'}</td>
-                                  </tr>
-                                  <tr>
-                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Tanggal Lahir</td>
-                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">
-                                      {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Alamat</td>
-                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.alamat || '-'}</td>
-                                  </tr>
+
                                 </tbody>
                               </table>
                             </div>
