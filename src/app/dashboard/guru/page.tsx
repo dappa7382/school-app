@@ -525,7 +525,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -665,7 +665,7 @@ export default function GuruDashboard() {
                         className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
                       >
                         <span className="material-icons-outlined icon-size text-base">import_contacts</span>
-                        <span className="truncate">{showJadwalLengkap ? 'Tutup Jadwal' : 'Schedules'}</span>
+                        <span className="truncate">{showJadwalLengkap ? 'Schedules' : 'Schedules'}</span>
                       </button>
                     </div>
 
