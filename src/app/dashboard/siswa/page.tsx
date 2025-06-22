@@ -369,16 +369,18 @@ export default function SiswaDashboard() {
                       <div className="flex-1">
                         <h2 className="text-xl font-bold text-[var(--text-primary)] mb-1">{profile?.nama}</h2>
                         <p className="text-[var(--text-secondary)] text-sm">NIS: {profile?.nis}</p>
-                        <p className="text-[var(--text-secondary)] text-sm mb-3">Kelas {profile?.kelas}</p>
-                        <button
-                          onClick={handleViewDetail}
-                          className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                        >
-                          {isExpanded ? 'Show Less' : 'See More Information'}
-                          <span className="material-icons-outlined text-base">
-                            {isExpanded ? 'expand_less' : 'expand_more'}
-                          </span>
-                        </button>
+                        <div className="flex items-center justify-between">
+                          <p className="text-[var(--text-secondary)] text-sm">Kelas {profile?.kelas}</p>
+                          <button
+                            onClick={handleViewDetail}
+                            className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                          >
+                            {isExpanded ? 'Show Less' : 'See More'}
+                            <span className="material-icons-outlined text-base">
+                              {isExpanded ? 'expand_less' : 'expand_more'}
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>                    {/* Desktop View */}
@@ -394,20 +396,24 @@ export default function SiswaDashboard() {
                             <div className="flex justify-between items-start">
                               <div>
                                 <h2 className="text-[var(--text-primary)] text-2xl font-bold">{profile?.nama}</h2>
-                                <div className="mt-1 flex items-center gap-4">
-                                  <p className="text-[var(--text-secondary)]">NIS: {profile?.nis}</p>
-                                  <p className="text-[var(--text-secondary)]">Kelas {profile?.kelas}</p>
+                                <div className="mt-1 flex items-center justify-between">
+                                  <div className="flex items-center gap-4">
+                                    <p className="text-[var(--text-secondary)]">NIS: {profile?.nis}</p>
+                                    <div className="flex items-center gap-4">
+                                      <p className="text-[var(--text-secondary)]">Kelas {profile?.kelas}</p>
+                                      <button
+                                        onClick={handleViewDetail}
+                                        className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                                      >
+                                        {isExpanded ? 'Show Less' : 'See More'}
+                                        <span className="material-icons-outlined text-base">
+                                          {isExpanded ? 'expand_less' : 'expand_more'}
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                              <button
-                                onClick={handleViewDetail}
-                                className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                              >
-                                {isExpanded ? 'Show Less' : 'See More Information'}
-                                <span className="material-icons-outlined text-base">
-                                  {isExpanded ? 'expand_less' : 'expand_more'}
-                                </span>
-                              </button>
                             </div>
                             <div className="mt-6 grid grid-cols-2 gap-4">
                               <div>
@@ -450,38 +456,72 @@ export default function SiswaDashboard() {
                       <div className="border-t border-[var(--border-color)] pt-6">
                         <div className="grid grid-cols-1 gap-6">
                           <div>
-                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Informasi Personal</h4>
+                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Data Siswa</h4>
                             <div className="bg-gray-50 rounded-lg p-4">
-                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
-                                    <span className="text-sm text-[var(--text-secondary)]">Gender</span>
+                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                {/* Biodata */}
+                                <div className="space-y-4">
+                                  <h5 className="font-medium text-[var(--text-primary)]">Biodata</h5>
+                                  <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">badge</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">NIS</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.nis}</p>
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">person</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Nama Lengkap</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.nama}</p>
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">school</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Kelas</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.kelas}</p>
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Gender</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
+                                    </div>
                                   </div>
-                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
                                 </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
-                                    <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
+
+                                {/* Information Detail */}
+                                <div className="space-y-4">
+                                  <h5 className="font-medium text-[var(--text-primary)]">Informasi Detail</h5>
+                                  <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">
+                                        {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                                      </p>
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
+                                        <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
+                                      </div>
+                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                                    </div>
                                   </div>
-                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
-                                </div>
-                                <div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
-                                    <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
-                                  </div>
-                                  <p className="mt-1 text-[var(--text-primary)]">
-                                    {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                  </p>
-                                </div>
-                                <div className="sm:col-span-2 lg:col-span-3">
-                                  <div className="flex items-center gap-2">
-                                    <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
-                                    <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
-                                  </div>
-                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
                                 </div>
                               </div>
                             </div>
