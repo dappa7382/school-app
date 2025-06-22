@@ -599,7 +599,7 @@ export default function GuruDashboard() {
                                 </td>
                               </tr>
                             ))
-                          ) : (
+                          : (
                             <tr>
                               <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
                                 No classes scheduled for {getCurrentDayName().toLowerCase()}
@@ -625,7 +625,7 @@ export default function GuruDashboard() {
                             handleViewGrades();
                           }
                         }}
-                        className={`flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showNilai ? 'bg-gray-800' : 'bg-black'} text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors`}
+                        className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showNilai ? 'bg-gray-800' : 'bg-black'} text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors`}
                       >
                         <span className="material-icons-outlined icon-size text-base">grade</span>
                         <span className="truncate">{showNilai ? 'Tutup Nilai Siswa' : 'Lihat Nilai Siswa'}</span>
@@ -638,7 +638,7 @@ export default function GuruDashboard() {
                             handleViewSchedule();
                           }
                         }}
-                        className={`flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
+                        className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
                       >
                         <span className="material-icons-outlined icon-size text-base">import_contacts</span>
                         <span className="truncate">{showJadwalLengkap ? 'Tutup Jadwal' : 'Schedules'}</span>
@@ -658,11 +658,11 @@ export default function GuruDashboard() {
                                 + Add Nilai
                               </button>
                             </div>
-                            <div className="flex flex-wrap gap-4">
+                            <div className="flex flex-wrap gap-2 w-full">
                               <select
                                 value={selectedKelas}
                                 onChange={(e) => setSelectedKelas(e.target.value)}
-                                className="px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="">Semua Kelas</option>
                                 {kelasList.map((kelas) => (
@@ -672,7 +672,7 @@ export default function GuruDashboard() {
                               <select
                                 value={selectedSemester}
                                 onChange={(e) => setSelectedSemester(e.target.value as 'Ganjil' | 'Genap')}
-                                className="px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="Ganjil">Semester Ganjil</option>
                                 <option value="Genap">Semester Genap</option>
@@ -680,7 +680,7 @@ export default function GuruDashboard() {
                               <select
                                 value={selectedTahun}
                                 onChange={(e) => setSelectedTahun(e.target.value)}
-                                className="px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="2023/2024">2023/2024</option>
                                 <option value="2024/2025">2024/2025</option>
@@ -689,7 +689,63 @@ export default function GuruDashboard() {
                           </div>
                         </div>
                         <div className="overflow-x-auto">
-                          <table className="w-full">
+                          {/* Mobile View */}
+                          <div className="md:hidden">
+                            {nilaiSiswa.map((n) => (
+                              <div key={n.id} className="p-4 border-b border-[#E5E7EB]">
+                                <div className="flex justify-between items-center mb-2">
+                                  <h5 className="font-semibold text-[#1F2937]">{n.siswa.nama}</h5>
+                                  <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
+                                    Nilai: {n.nilai}
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                                  <div>
+                                    <p className="text-gray-500">NIS</p>
+                                    <p>{n.siswa.nis}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-gray-500">Kelas</p>
+                                    <p>{n.siswa.kelas}</p>
+                                  </div>
+                                  <div className="col-span-2">
+                                    <p className="text-gray-500">Mata Pelajaran</p>
+                                    <p>{n.mata_pelajaran.nama_mapel}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-gray-500">Semester</p>
+                                    <p>{n.semester}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-gray-500">Tahun</p>
+                                    <p>{n.tahun_ajar}</p>
+                                  </div>
+                                </div>
+                                <div className="flex justify-end gap-3 mt-2">
+                                  <button
+                                    onClick={() => handleEditNilai(n)}
+                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteNilai(n.id)}
+                                    className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                            {nilaiSiswa.length === 0 && (
+                              <div className="p-8 text-center text-[#6B7280]">
+                                No grades available
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Desktop View */}
+                          <table className="w-full hidden md:table">
                             <thead className="bg-gray-50">
                               <tr>
                                 <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nama Siswa</th>
@@ -728,6 +784,13 @@ export default function GuruDashboard() {
                                   </td>
                                 </tr>
                               ))}
+                              {nilaiSiswa.length === 0 && (
+                                <tr>
+                                  <td colSpan={7} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                    No grades available
+                                  </td>
+                                </tr>
+                              )}
                             </tbody>
                           </table>
                         </div>
@@ -739,8 +802,8 @@ export default function GuruDashboard() {
                         <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
                           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
                             <h4 className="text-[#1F2937] text-sm font-semibold">Jadwal Mengajar</h4>
-                            <div className="flex items-center gap-2">
-                              <label htmlFor="day-filter" className="text-sm text-gray-600">Filter hari:</label>
+                            <div className="w-full sm:w-auto flex items-center gap-2">
+                              <label htmlFor="day-filter" className="text-sm text-gray-600 whitespace-nowrap">Filter hari:</label>
                               <select
                                 id="day-filter"
                                 value={selectedDay}
@@ -750,7 +813,7 @@ export default function GuruDashboard() {
                                     handleViewSchedule();
                                   }, 100);
                                 }}
-                                className="px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                                className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="">Semua Hari</option>
                                 {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
@@ -761,7 +824,38 @@ export default function GuruDashboard() {
                           </div>
                         </div>
                         <div className="overflow-x-auto">
-                          <table className="w-full">
+                          {/* Mobile View */}
+                          <div className="md:hidden">
+                            {jadwalLengkap.length > 0 ? (
+                              jadwalLengkap.map((j) => (
+                                <div key={j.id} className="p-4 border-b border-[#E5E7EB]">
+                                  <div className="flex justify-between items-center mb-2">
+                                    <h5 className="font-semibold text-[#1F2937]">{j.hari}</h5>
+                                    <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
+                                      Kelas {j.kelas}
+                                    </span>
+                                  </div>
+                                  <div className="grid grid-cols-1 gap-2 text-sm mb-3">
+                                    <div>
+                                      <p className="text-gray-500">Mata Pelajaran</p>
+                                      <p className="font-medium">{j.mata_pelajaran.nama_mapel}</p>
+                                    </div>
+                                    <div>
+                                      <p className="text-gray-500">Waktu</p>
+                                      <p>{formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <div className="p-8 text-center text-[#6B7280]">
+                                {selectedDay ? `No classes scheduled for ${selectedDay}` : 'No classes scheduled'}
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Desktop View */}
+                          <table className="w-full hidden md:table">
                             <thead className="bg-gray-50">
                               <tr>
                                 <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Hari</th>
@@ -833,11 +927,19 @@ export default function GuruDashboard() {
 
         {/* Add Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-lg font-semibold mb-4">
-                {isEditMode ? 'Edit Nilai' : 'Add Nilai'}
-              </h3>
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-semibold">
+                  {isEditMode ? 'Edit Nilai' : 'Add Nilai'}
+                </h3>
+                <button 
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <span className="material-icons-outlined">close</span>
+                </button>
+              </div>
               <form onSubmit={handleSaveNilai} className="space-y-4">
                 {!isEditMode && (
                   <>
@@ -846,7 +948,7 @@ export default function GuruDashboard() {
                       <select
                         value={editingNilai?.siswa_id || ''}
                         onChange={(e) => setEditingNilai(prev => ({...prev!, siswa_id: Number(e.target.value)}))}
-                        className="w-full rounded-lg border p-2"
+                        className="w-full rounded-lg border border-gray-300 p-2 text-sm"
                         required
                       >
                         <option value="">Pilih Siswa</option>
@@ -862,7 +964,7 @@ export default function GuruDashboard() {
                       <select
                         value={editingNilai?.mapel_id || ''}
                         onChange={(e) => setEditingNilai(prev => ({...prev!, mapel_id: Number(e.target.value)}))}
-                        className="w-full rounded-lg border p-2"
+                        className="w-full rounded-lg border border-gray-300 p-2 text-sm"
                         required
                       >
                         {availableMapel.map(m => (
@@ -880,21 +982,21 @@ export default function GuruDashboard() {
                     max="100"
                     value={editingNilai?.nilai || ''}
                     onChange={(e) => setEditingNilai(prev => ({...prev!, nilai: Number(e.target.value)}))}
-                    className="w-full rounded-lg border p-2"
+                    className="w-full rounded-lg border border-gray-300 p-2 text-sm"
                     required
                   />
                 </div>
-                <div className="flex justify-end gap-4 mt-6">
+                <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-4 mt-6">
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-indigo-700"
+                    className="w-full sm:w-auto px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-indigo-700"
                   >
                     Save
                   </button>
