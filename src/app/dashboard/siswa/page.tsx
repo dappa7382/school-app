@@ -412,38 +412,29 @@ export default function SiswaDashboard() {
                         <div className="flex items-start gap-6">
                           <div className="shrink-0">
                             <div className="bg-gray-200 aspect-square bg-cover rounded-full h-32 w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                              <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
+                              <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
                             </div>
                           </div>
                           <div className="flex-1">
                             <div className="flex justify-between items-start">
                               <div>
                                 <h2 className="text-[var(--text-primary)] text-2xl font-bold">{profile?.nama}</h2>
-                                <div className="mt-1 flex items-center justify-between">
-                                  <div className="flex items-center gap-4">
-                                    <p className="text-[var(--text-secondary)]">NIS: {profile?.nis}</p>
-                                    <div className="flex items-center gap-4">
-                                      <p className="text-[var(--text-secondary)]">Kelas {profile?.kelas}</p>
-                                      <button
-                                        onClick={handleViewDetail}
-                                        className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                                      >
-                                        {isExpanded ? 'Show Less' : 'See More'}
-                                        <span className="material-icons-outlined text-base">
-                                          {isExpanded ? 'expand_less' : 'expand_more'}
-                                        </span>
-                                      </button>
-                                    </div>
-                                  </div>
+                                <div className="mt-1 flex flex-col gap-1">
+                                  <p className="text-[var(--text-secondary)]">NIS: {profile?.nis}</p>
+                                  <p className="text-[var(--text-secondary)]">Kelas {profile?.kelas}</p>
+                                  <button
+                                    onClick={handleViewDetail}
+                                    className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1 mt-2"
+                                  >
+                                    {isExpanded ? 'Show Less' : 'See More'}
+                                    <span className="material-icons-outlined text-base">
+                                      {isExpanded ? 'expand_less' : 'expand_more'}
+                                    </span>
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div className="mt-6">
-                              <div className="flex items-center gap-4">
-                                <p className="text-[var(--text-primary)]">NIS: {profile?.nis}</p>
-                                <p className="text-[var(--text-primary)]">Kelas {profile?.kelas}</p>
-                              </div>
-                            </div>
+
                           </div>
                         </div>
                       </div>
