@@ -627,7 +627,7 @@ export default function GuruDashboard() {
                                 </td>
                               </tr>
                             ))
-                          : (
+                          ):(
                             <tr>
                               <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
                                 No classes scheduled for {getCurrentDayName().toLowerCase()}
