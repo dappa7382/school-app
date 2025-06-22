@@ -69,7 +69,7 @@ export default function LoginPage() {
       <main className="flex flex-1 items-center justify-center py-10 sm:py-16 px-4">
         <div className="w-full max-w-md bg-white shadow-xl rounded-xl p-8 sm:p-10">
           <div className="text-center mb-8">
-            <h2 className="text-[#141414] text-3xl font-bold leading-tight tracking-tight">Selamat Datang</h2>
+            <h2 className="text-[#141414] text-3xl font-bold leading-tight tracking-tight">Welcome</h2>
             <p className="text-[#757575] text-sm mt-2">Please enter your credentials to login.</p>
           </div>
           <form className="space-y-6" onSubmit={handleLogin}>
@@ -120,7 +120,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   className="font-semibold text-[#4A90E2] hover:text-blue-600 focus:outline-none"
-                  onClick={() => alert('Silakan hubungi admin untuk reset password.')}
+                  onClick={() => alert('Please contact admin to change password.')}
                 >
                   Forgot password?
                 </button>

@@ -233,7 +233,7 @@ export default function GuruDashboard() {
 
       if (!mapelData?.length) return;
 
-      const mapelIds = mapelData.map(m => m.id);
+      const mapelIds = mapelData.map((m: { id: number }) => m.id);
 
       const { data: nilaiData } = await supabase
         .from('nilai_siswa')
@@ -268,7 +268,7 @@ export default function GuruDashboard() {
           mata_pelajaran: Array.isArray(n.mata_pelajaran) ? n.mata_pelajaran[0] : n.mata_pelajaran,
         }));
         const filteredData = selectedKelas 
-          ? fixedData.filter(n => n.siswa.kelas === selectedKelas)
+          ? fixedData.filter((n: any) => n.siswa.kelas === selectedKelas)
           : fixedData;
         setNilaiSiswa(filteredData);
         setShowNilai(true);
@@ -287,8 +287,8 @@ export default function GuruDashboard() {
         .eq('guru_id', profile.id);
 
       if (jadwalData) {
-        const uniqueKelas = [...new Set(jadwalData.map(item => item.kelas))];
-        setKelasList(uniqueKelas.sort());
+        const uniqueKelas = [...new Set(jadwalData.map((item: { kelas: string }) => item.kelas))];
+        setKelasList(uniqueKelas.sort() as string[]);
       }
     }
   };
@@ -426,7 +426,7 @@ export default function GuruDashboard() {
       if (data) {
         // Filter siswa based on selected class if needed
         const filteredSiswa = selectedKelas 
-          ? data.filter(s => s.kelas === selectedKelas)
+          ? data.filter((s: any) => s.kelas === selectedKelas)
           : data;
         
         setAvailableSiswa(filteredSiswa);
@@ -799,7 +799,7 @@ export default function GuruDashboard() {
                   </div>
                 </section>
 
-                {/* Add School Updates section before footer */}
+                {/* School Updates section */}
                 <section className="bg-white p-6 rounded-xl shadow-lg">
                   <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-6">School Updates</h3>
                   <div className="space-y-6">
