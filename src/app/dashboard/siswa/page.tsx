@@ -363,7 +363,7 @@ export default function SiswaDashboard() {
                     <div className="flex items-start gap-4">
                       <div className="shrink-0">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '2.5rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                       </div>
                       <div className="flex-1">
@@ -456,74 +456,42 @@ export default function SiswaDashboard() {
                       <div className="border-t border-[var(--border-color)] pt-6">
                         <div className="grid grid-cols-1 gap-6">
                           <div>
-                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Data Siswa</h4>
-                            <div className="bg-gray-50 rounded-lg p-4">
-                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                {/* Biodata */}
-                                <div className="space-y-4">
-                                  <h5 className="font-medium text-[var(--text-primary)]">Biodata</h5>
-                                  <div className="grid grid-cols-1 gap-4">
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">badge</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">NIS</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.nis}</p>
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">person</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Nama Lengkap</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.nama}</p>
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">school</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Kelas</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.kelas}</p>
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Gender</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* Information Detail */}
-                                <div className="space-y-4">
-                                  <h5 className="font-medium text-[var(--text-primary)]">Informasi Detail</h5>
-                                  <div className="grid grid-cols-1 gap-4">
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">
-                                        {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
-                                        <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
-                                      </div>
-                                      <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Detail Informasi Siswa</h4>
+                            <div className="bg-gray-50 rounded-lg p-6">
+                              <table className="w-full">
+                                <tbody className="divide-y divide-gray-200">
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)] w-1/3">NIS</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.nis}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Nama Lengkap</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.nama}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Kelas</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">Kelas {profile?.kelas}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Gender</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.gender}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Tempat Lahir</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.tempat_lahir || '-'}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Tanggal Lahir</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">
+                                      {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Alamat</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.alamat || '-'}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
                         </div>
