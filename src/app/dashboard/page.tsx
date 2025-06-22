@@ -300,6 +300,13 @@ export default function SiswaDashboard() {
         @container (max-width: 400px) {
           .table-cell-time { display: none; }
         }
+        @container (max-width: 768px) {
+          .desktop-only { display: none; }
+        }
+
+        @container (min-width: 769px) {
+          .mobile-only { display: none; }
+        }
       `}</style>
 
       <div className="flex h-full grow flex-col">
@@ -459,37 +466,39 @@ export default function SiswaDashboard() {
 
                 <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
                   <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4">Quick Actions</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <button 
                       onClick={handleViewGrades}
-                      className="flex items-center justify-center gap-2 min-h-[48px] px-4 bg-[var(--primary-color)] text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50 rounded-lg"
+                      className="flex items-center justify-center gap-2 h-12 px-4 bg-[var(--primary-color)] text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors"
                     >
-                      <span className="material-icons-outlined text-xl">
+                      <span className="material-icons-outlined">
                         {showNilai ? 'close' : 'assessment'}
                       </span>
-                      <span className="truncate">{showNilai ? 'Close Grades' : 'View Grades'}</span>
+                      <span className="hidden sm:inline">{showNilai ? 'Close Grades' : 'View Grades'}</span>
                     </button>
+                    
                     <button 
                       onClick={handleViewSchedule}
-                      className="flex items-center justify-center gap-2 min-h-[48px] px-4 bg-[var(--secondary-color)] text-[var(--text-primary)] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[var(--border-color)] rounded-lg"
+                      className="flex items-center justify-center gap-2 h-12 px-4 bg-[var(--secondary-color)] text-[var(--text-primary)] text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors border border-[var(--border-color)]"
                     >
-                      <span className="material-icons-outlined text-xl">
+                      <span className="material-icons-outlined">
                         {showJadwalLengkap ? 'close' : 'import_contacts'}
                       </span>
-                      <span className="truncate">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
+                      <span className="hidden sm:inline">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
                     </button>
                   </div>
                   
                   {showNilai && (
                     <div className="rounded-lg border border-[#E5E7EB] overflow-hidden mt-4">
-                      <div className="bg-gray-50 px-3 sm:px-4 py-3 border-b border-[#E5E7EB]">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                          <h4 className="text-[#1F2937] text-sm font-semibold">Nilai Akademik</h4>
-                          <div className="flex flex-wrap gap-2 text-sm w-full sm:w-auto">
+                      {/* Filter Controls - More Mobile Friendly */}
+                      <div className="bg-gray-50 p-4 border-b border-[#E5E7EB]">
+                        <div className="flex flex-col gap-3">
+                          <h4 className="text-[#1F2937] font-semibold">Nilai Akademik</h4>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <select
                               value={selectedSemester}
                               onChange={(e) => setSelectedSemester(e.target.value as Semester | 'all')}
-                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
+                              className="w-full border rounded px-3 py-2 text-sm"
                             >
                               <option value="all">Semua Semester</option>
                               <option value="Ganjil">Ganjil</option>
@@ -498,7 +507,7 @@ export default function SiswaDashboard() {
                             <select
                               value={selectedYear}
                               onChange={(e) => setSelectedYear(e.target.value)}
-                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
+                              className="w-full border rounded px-3 py-2 text-sm"
                             >
                               <option value="all">Semua Tahun</option>
                               {availableYears.map((year) => (
@@ -508,34 +517,55 @@ export default function SiswaDashboard() {
                           </div>
                         </div>
                       </div>
-                      <div className="overflow-x-auto -mx-4 sm:mx-0">
-                        <table className="w-full">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Tahun</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-[#E5E7EB]">
-                            {getFilteredNilai().map((n) => (
-                              <tr key={n.id} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm text-[#1F2937]">{n.mata_pelajaran.nama_mapel}</td>
-                                <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
-                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester}</td>
-                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.tahun_ajar}</td>
-                              </tr>
-                            ))}
-                            {getFilteredNilai().length === 0 && (
+
+                      {/* Mobile View */}
+                      <div className="md:hidden">
+                        {getFilteredNilai().map((n) => (
+                          <div key={n.id} className="p-4 border-b border-[#E5E7EB]">
+                            <div className="flex justify-between items-start mb-2">
+                              <div>
+                                <h5 className="font-medium text-[var(--text-primary)]">{n.mata_pelajaran.nama_mapel}</h5>
+                                <p className="text-sm text-[var(--text-secondary)]">{n.semester} - {n.tahun_ajar}</p>
+                              </div>
+                              <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">
+                                {n.nilai}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Desktop View */}
+                      <div className="hidden md:block">
+                        <div className="overflow-x-auto -mx-4 sm:mx-0">
+                          <table className="w-full">
+                            <thead className="bg-gray-50">
                               <tr>
-                                <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                  Tidak ada nilai yang sesuai dengan filter
-                                </td>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Tahun</th>
                               </tr>
-                            )}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="divide-y divide-[#E5E7EB]">
+                              {getFilteredNilai().map((n) => (
+                                <tr key={n.id} className="hover:bg-gray-50">
+                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{n.mata_pelajaran.nama_mapel}</td>
+                                  <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.tahun_ajar}</td>
+                                </tr>
+                              ))}
+                              {getFilteredNilai().length === 0 && (
+                                <tr>
+                                  <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                    Tidak ada nilai yang sesuai dengan filter
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}
