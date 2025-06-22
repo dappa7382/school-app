@@ -194,6 +194,11 @@ export default function SiswaDashboard() {
   ];
 
   const handleViewGrades = async () => {
+    if (showNilai) {
+      setShowNilai(false);
+      return;
+    }
+    
     try {
       const { data, error } = await supabase
         .from('nilai_siswa')
@@ -221,6 +226,11 @@ export default function SiswaDashboard() {
   };
 
   const handleViewSchedule = async () => {
+    if (showJadwalLengkap) {
+      setShowJadwalLengkap(false);
+      return;
+    }
+    
     try {
       const { data, error } = await supabase
         .from('jadwal_pelajaran')
@@ -452,15 +462,19 @@ export default function SiswaDashboard() {
                       onClick={handleViewGrades}
                       className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[var(--primary-color)] text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50"
                     >
-                      <span className="material-icons-outlined icon-size text-base">assessment</span>
-                      <span className="truncate">View Grades</span>
+                      <span className="material-icons-outlined icon-size text-base">
+                        {showNilai ? 'close' : 'assessment'}
+                      </span>
+                      <span className="truncate">{showNilai ? 'Close Grades' : 'View Grades'}</span>
                     </button>
                     <button 
                       onClick={handleViewSchedule}
                       className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[var(--secondary-color)] text-[var(--text-primary)] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[var(--border-color)]"
                     >
-                      <span className="material-icons-outlined icon-size text-base">import_contacts</span>
-                      <span className="truncate">Schedules</span>
+                      <span className="material-icons-outlined icon-size text-base">
+                        {showJadwalLengkap ? 'close' : 'import_contacts'}
+                      </span>
+                      <span className="truncate">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
                     </button>
                   </div>
                   
