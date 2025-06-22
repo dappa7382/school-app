@@ -71,6 +71,7 @@ export default function GuruDashboard() {
   const [jadwal, setJadwal] = useState<JadwalType[]>([]);
   const [showJadwalLengkap, setShowJadwalLengkap] = useState(false);
   const [jadwalLengkap, setJadwalLengkap] = useState<JadwalType[]>([]);
+  const [selectedDay, setSelectedDay] = useState<Hari | ''>('');
   const [nilaiSiswa, setNilaiSiswa] = useState<NilaiType[]>([]);
   const [showNilai, setShowNilai] = useState(false);
   const [selectedKelas, setSelectedKelas] = useState<string>('');
@@ -178,34 +179,48 @@ export default function GuruDashboard() {
   }, [router, supabase]);
 
   const handleViewSchedule = async () => {
-    const { data } = await supabase
-      .from('jadwal_pelajaran')
-      .select(`
-        id,
-        kelas,
-        mapel_id,
-        guru_id,
-        hari,
-        jam_mulai,
-        jam_selesai,
-        mata_pelajaran (
+    try {
+      let query = supabase
+        .from('jadwal_pelajaran')
+        .select(`
           id,
-          nama_mapel,
-          guru_id
-        )
-      `)
-      .eq('guru_id', profile?.id)
-      .order('hari')
-      .order('jam_mulai');
+          kelas,
+          mapel_id,
+          guru_id,
+          hari,
+          jam_mulai,
+          jam_selesai,
+          mata_pelajaran (
+            id,
+            nama_mapel,
+            guru_id
+          )
+        `)
+        .eq('guru_id', profile?.id);
+      
+      if (selectedDay) {
+        query = query.eq('hari', selectedDay);
+      }
+      
+      const { data, error } = await query.order('hari').order('jam_mulai');
+      
+      if (error) {
+        console.error('Error fetching schedule:', error);
+        return;
+      }
 
-    if (data) {
-      // Fix: map mata_pelajaran from array to object
-      const fixedData = data.map((item: any) => ({
-        ...item,
-        mata_pelajaran: Array.isArray(item.mata_pelajaran) ? item.mata_pelajaran[0] : item.mata_pelajaran,
-      }));
-      setJadwalLengkap(fixedData);
-      setShowJadwalLengkap(true);
+      if (data) {
+        // Fix: map mata_pelajaran from array to object
+        const fixedData = data.map((item: any) => ({
+          ...item,
+          mata_pelajaran: Array.isArray(item.mata_pelajaran) ? item.mata_pelajaran[0] : item.mata_pelajaran,
+        }));
+        setJadwalLengkap(fixedData);
+        setShowNilai(false);
+        setShowJadwalLengkap(true);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
@@ -305,6 +320,18 @@ export default function GuruDashboard() {
   const getCurrentDayName = () => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     return days[new Date().getDay()];
+  };
+  
+  const sortHari = (hari: Hari[]) => {
+    const hariOrder: Record<Hari, number> = {
+      'Senin': 0,
+      'Selasa': 1,
+      'Rabu': 2,
+      'Kamis': 3,
+      'Jumat': 4,
+      'Sabtu': 5
+    };
+    return [...hari].sort((a, b) => hariOrder[a] - hariOrder[b]);
   };
 
   // Add CRUD handlers
@@ -591,18 +618,30 @@ export default function GuruDashboard() {
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-col sm:flex-row gap-4">
                       <button 
-                        onClick={handleViewGrades}
-                        className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-black text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors"
+                        onClick={() => {
+                          if (showNilai) {
+                            setShowNilai(false);
+                          } else {
+                            handleViewGrades();
+                          }
+                        }}
+                        className={`flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showNilai ? 'bg-gray-800' : 'bg-black'} text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors`}
                       >
                         <span className="material-icons-outlined icon-size text-base">grade</span>
-                        <span className="truncate">Lihat Nilai Siswa</span>
+                        <span className="truncate">{showNilai ? 'Tutup Nilai Siswa' : 'Lihat Nilai Siswa'}</span>
                       </button>
                       <button 
-                        onClick={handleViewSchedule}
-                        className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[#F3F4F6] text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]"
+                        onClick={() => {
+                          if (showJadwalLengkap) {
+                            setShowJadwalLengkap(false);
+                          } else {
+                            handleViewSchedule();
+                          }
+                        }}
+                        className={`flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
                       >
                         <span className="material-icons-outlined icon-size text-base">import_contacts</span>
-                        <span className="truncate">Schedules</span>
+                        <span className="truncate">{showJadwalLengkap ? 'Tutup Jadwal' : 'Schedules'}</span>
                       </button>
                     </div>
 
@@ -698,7 +737,28 @@ export default function GuruDashboard() {
                     {showJadwalLengkap && (
                       <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
                         <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
-                          <h4 className="text-[#1F2937] text-sm font-semibold">Jadwal Mengajar</h4>
+                          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                            <h4 className="text-[#1F2937] text-sm font-semibold">Jadwal Mengajar</h4>
+                            <div className="flex items-center gap-2">
+                              <label htmlFor="day-filter" className="text-sm text-gray-600">Filter hari:</label>
+                              <select
+                                id="day-filter"
+                                value={selectedDay}
+                                onChange={(e) => {
+                                  setSelectedDay(e.target.value as Hari | '');
+                                  setTimeout(() => {
+                                    handleViewSchedule();
+                                  }, 100);
+                                }}
+                                className="px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                              >
+                                <option value="">Semua Hari</option>
+                                {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
+                                  <option key={hari} value={hari}>{hari}</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
                         </div>
                         <div className="overflow-x-auto">
                           <table className="w-full">
@@ -711,16 +771,26 @@ export default function GuruDashboard() {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-[#E5E7EB]">
-                              {jadwalLengkap.map((j) => (
-                                <tr key={j.id} className="hover:bg-gray-50">
-                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{j.hari}</td>
-                                  <td className="px-4 py-3 text-sm text-[#6B7280] whitespace-nowrap">
-                                    {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                              {jadwalLengkap.length > 0 ? (
+                                jadwalLengkap.map((j) => (
+                                  <tr key={j.id} className="hover:bg-gray-50">
+                                    <td className="px-4 py-3 text-sm text-[#1F2937]">{j.hari}</td>
+                                    <td className="px-4 py-3 text-sm text-[#6B7280] whitespace-nowrap">
+                                      {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                                    </td>
+                                    <td className="px-4 py-3 text-sm text-[#1F2937]">{j.mata_pelajaran.nama_mapel}</td>
+                                    <td className="px-4 py-3 text-sm text-[#6B7280]">Kelas {j.kelas}</td>
+                                  </tr>
+                                ))
+                              ) : (
+                                <tr>
+                                  <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                    {selectedDay 
+                                      ? `No classes scheduled for ${selectedDay}` 
+                                      : 'No classes scheduled'}
                                   </td>
-                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{j.mata_pelajaran.nama_mapel}</td>
-                                  <td className="px-4 py-3 text-sm text-[#6B7280]">Kelas {j.kelas}</td>
                                 </tr>
-                              ))}
+                              )}
                             </tbody>
                           </table>
                         </div>
