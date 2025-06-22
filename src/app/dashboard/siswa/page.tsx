@@ -302,8 +302,8 @@ export default function SiswaDashboard() {
         }
       `}</style>
 
-      <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--border-color)] px-6 md:px-10 py-4 shadow-sm">
+      <div className="flex h-full grow flex-col">
+        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--border-color)] px-4 sm:px-6 md:px-10 py-4 shadow-sm">
           <div className="flex items-center gap-3 text-[var(--text-primary)]">
             <div className="text-[var(--primary-color)]">
               <svg className="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -344,8 +344,8 @@ export default function SiswaDashboard() {
           </div>
         </header>
 
-        <main className="px-2 sm:px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-4 sm:py-8 bg-[var(--secondary-color)]">
-          <div className="layout-content-container flex flex-col w-full max-w-5xl flex-1 gap-4 sm:gap-8">
+        <main className="px-4 sm:px-6 md:px-10 flex flex-1 justify-center py-4 sm:py-8 bg-[var(--secondary-color)]">
+          <div className="container mx-auto flex flex-col w-full max-w-6xl flex-1 gap-4 sm:gap-8">
             {loading ? (
               <div className="text-center">Loading...</div>
             ) : profile ? (
