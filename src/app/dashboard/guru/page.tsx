@@ -530,7 +530,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -843,7 +843,7 @@ export default function GuruDashboard() {
                                 className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="">Semua Hari</option>
-                                {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
+                                {(['Semua Hari','Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
                                   <option key={hari} value={hari}>{hari}</option>
                                 ))}
                               </select>
