@@ -446,57 +446,135 @@ export default function GuruDashboard() {
   };
 
   return (
-    <div className="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
-      <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[var(--border-color)] px-6 md:px-10 py-4 shadow-sm">
-          <div className="flex items-center gap-3 text-[var(--text-primary)]">
-            <div className="text-black">
-              <svg className="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
-              </svg>
+    <div className="flex min-h-screen flex-col">
+      <div className="flex flex-1">
+        {/* Sidebar for tablet and larger screens */}
+        <aside className="hidden border-r border-[#e5e7eb] md:flex md:w-64 md:flex-col">
+          <div className="flex flex-col gap-4 p-4">
+            <div className="flex items-center gap-3 px-2">
+              <div className="text-black">
+                <svg className="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+                </svg>
+              </div>
+              <h1 className="text-xl font-bold text-[#1f2937]">Dashboard Guru</h1>
             </div>
-            <h1 className="text-xl font-bold tracking-tight">Dashboard Guru</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-              <span className="material-icons-outlined icon-size">menu</span>
-            </button>
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border border-[var(--border-color)] hover:border-gray-400 transition-colors"
-              >
-                <span className="sr-only">Open user menu</span>
-                <span className="material-icons-outlined text-gray-600">person</span>
-              </button>
-              
-              {/* Profile Dropdown Menu */}
-              {isProfileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
-                  <div className="px-4 py-2 border-b border-gray-700">
-                    <p className="text-sm text-white font-medium truncate">{profile?.nama}</p>
-                    <p className="text-sm text-gray-300 truncate">NIP: {profile?.nip}</p>
-                  </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-800 transition-colors"
-                  >
-                    Sign out
-                  </button>
+            <nav className="flex-1">
+              <div className="space-y-1">
+                <button onClick={() => { setShowNilai(false); setShowJadwalLengkap(false); }}
+                  className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${!showNilai && !showJadwalLengkap ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                  <span className="material-icons-outlined">home</span>
+                  Overview
+                </button>
+                <button onClick={() => { setShowNilai(true); setShowJadwalLengkap(false); handleViewGrades(); }}
+                  className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${showNilai ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                  <span className="material-icons-outlined">grade</span>
+                  Nilai Siswa
+                </button>
+                <button onClick={() => { setShowNilai(false); setShowJadwalLengkap(true); handleViewSchedule(); }}
+                  className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${showJadwalLengkap ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                  <span className="material-icons-outlined">schedule</span>
+                  Jadwal
+                </button>
+              </div>
+            </nav>
+            <div className="border-t border-[#e5e7eb] pt-4">
+              <div className="flex items-center gap-3 rounded-lg px-2 py-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3f4f6]">
+                  <span className="material-icons-outlined text-gray-600">person</span>
                 </div>
-              )}
+                <div className="flex flex-1 flex-col">
+                  <span className="text-sm font-medium text-[#1f2937]">{profile?.nama}</span>
+                  <span className="text-sm text-[#6b7280]">NIP: {profile?.nip}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </header>
+        </aside>
 
-        <main className="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-8 bg-[#F3F4F6]">
-          <div className="layout-content-container flex flex-col max-w-5xl flex-1 gap-8">
+        {/* Main content */}
+        <main className="flex-1 overflow-y-auto bg-[#f3f4f6]">
+          {/* Mobile header */}
+          <header className="flex items-center justify-between border-b border-[#e5e7eb] bg-white p-4 md:hidden">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setIsExpanded(!isExpanded)} className="text-[#6b7280]">
+                <span className="material-icons-outlined">menu</span>
+              </button>
+              <h1 className="text-lg font-bold text-[#1f2937]">Dashboard Guru</h1>
+            </div>
+            <button onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)} className="relative">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f3f4f6]">
+                <span className="material-icons-outlined text-gray-600">person</span>
+              </div>
+            </button>
+          </header>
+
+          {/* Mobile navigation drawer */}
+          {isExpanded && (
+            <div className="fixed inset-0 z-40 md:hidden">
+              <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setIsExpanded(false)}></div>
+              <div className="fixed inset-y-0 left-0 w-64 bg-white">
+                <div className="flex flex-col gap-4 p-4">
+                  <div className="flex items-center gap-3 px-2">
+                    <div className="text-black">
+                      <svg className="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 6H42L36 24L42 42H6L12 24L6 6Z" fill="currentColor"></path>
+                      </svg>
+                    </div>
+                    <h1 className="text-xl font-bold text-[#1f2937]">Dashboard Guru</h1>
+                  </div>
+                  <nav className="flex-1">
+                    <div className="space-y-1">
+                      <button onClick={() => { setShowNilai(false); setShowJadwalLengkap(false); setIsExpanded(false); }}
+                        className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${!showNilai && !showJadwalLengkap ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                        <span className="material-icons-outlined">home</span>
+                        Overview
+                      </button>
+                      <button onClick={() => { setShowNilai(true); setShowJadwalLengkap(false); handleViewGrades(); setIsExpanded(false); }}
+                        className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${showNilai ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                        <span className="material-icons-outlined">grade</span>
+                        Nilai Siswa
+                      </button>
+                      <button onClick={() => { setShowNilai(false); setShowJadwalLengkap(true); handleViewSchedule(); setIsExpanded(false); }}
+                        className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium ${showJadwalLengkap ? 'bg-[#f3f4f6] text-[#1f2937]' : 'text-[#6b7280] hover:bg-[#f3f4f6]'}`}>
+                        <span className="material-icons-outlined">schedule</span>
+                        Jadwal
+                      </button>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Profile menu dropdown */}
+          {isProfileMenuOpen && (
+            <div className="absolute right-4 top-16 z-50 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 md:right-10 md:top-10">
+              <div className="px-4 py-3 border-b border-gray-100">
+                <p className="text-sm text-gray-900 font-medium truncate">{profile?.nama}</p>
+                <p className="text-sm text-gray-500 truncate">NIP: {profile?.nip}</p>
+              </div>
+              <div className="py-1">
+                <button
+                  onClick={handleSignOut}
+                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Sign out
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Page content */}
+          <div className="container mx-auto p-4 md:p-6 lg:p-8">
             {loading ? (
-              <div className="text-center">Loading...</div>
+              <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+                <div className="text-center text-gray-500">Loading...</div>
+              </div>
             ) : profile ? (
-              <>
-                {/* Profile Section */}
-                <section className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="space-y-6">
+                {/* Profile section */}
+                <section className="bg-white rounded-xl shadow-sm overflow-hidden">
                   <div className="p-6">
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
@@ -560,328 +638,52 @@ export default function GuruDashboard() {
                   </div>
                 </section>
 
-                {/* Today's Schedule */}
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight">
-                      Today's Schedule
-                    </h3>
-                    <p className="text-[#6B7280] text-sm font-medium">
-                      {getCurrentDayName()}
-                    </p>
-                  </div>
-                  <div className="@container">
-                    <div className="overflow-x-auto rounded-lg border border-[#E5E7EB]">
-                      <table className="w-full">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="table-cell-time w-1/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Time</th>
-                            <th className="table-cell-course w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Subject</th>
-                            <th className="table-cell-room w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Class</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#E5E7EB]">
-                          {jadwal.length > 0 ? (
-                            jadwal.map((j) => (
-                              <tr key={j.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-3 text-[#1F2937] text-sm font-medium whitespace-nowrap">
-                                  {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="flex flex-col">
-                                    <span className="text-[#1F2937] text-sm font-medium">
-                                      {j.mata_pelajaran.nama_mapel}
-                                    </span>
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <span className="text-[#6B7280] text-sm">Kelas {j.kelas}</span>
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                No classes scheduled for {getCurrentDayName().toLowerCase()}
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Quick Actions */}
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4">Quick Actions</h3>
-                  <div className="flex flex-col gap-6">
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <button 
-                        onClick={() => {
-                          if (showNilai) {
-                            setShowNilai(false);
-                          } else {
-                            handleViewGrades();
-                          }
-                        }}
-                        className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showNilai ? 'bg-gray-800' : 'bg-black'} text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors`}
-                      >
-                        <span className="material-icons-outlined icon-size text-base">grade</span>
-                        <span className="truncate">{showNilai ? 'Tutup Nilai Siswa' : 'Lihat Nilai Siswa'}</span>
-                      </button>
-                      <button 
-                        onClick={() => {
-                          if (showJadwalLengkap) {
-                            setShowJadwalLengkap(false);
-                          } else {
-                            handleViewSchedule();
-                          }
-                        }}
-                        className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
-                      >
-                        <span className="material-icons-outlined icon-size text-base">import_contacts</span>
-                        <span className="truncate">{showJadwalLengkap ? 'Tutup Jadwal' : 'Schedules'}</span>
-                      </button>
-                    </div>
-
-                    {showNilai && (
-                      <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
-                        <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
-                          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <h4 className="text-[#1F2937] text-sm font-semibold">Nilai Siswa</h4>
-                              <button
-                                onClick={handleAddNilai}
-                                className="px-3 py-1 bg-[#4F46E5] text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
-                              >
-                                + Add Nilai
-                              </button>
-                            </div>
-                            <div className="flex flex-wrap gap-2 w-full">
-                              <select
-                                value={selectedKelas}
-                                onChange={(e) => setSelectedKelas(e.target.value)}
-                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
-                              >
-                                <option value="">Semua Kelas</option>
-                                {kelasList.map((kelas) => (
-                                  <option key={kelas} value={kelas}>Kelas {kelas}</option>
-                                ))}
-                              </select>
-                              <select
-                                value={selectedSemester}
-                                onChange={(e) => setSelectedSemester(e.target.value as 'Ganjil' | 'Genap')}
-                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
-                              >
-                                <option value="Ganjil">Semester Ganjil</option>
-                                <option value="Genap">Semester Genap</option>
-                              </select>
-                              <select
-                                value={selectedTahun}
-                                onChange={(e) => setSelectedTahun(e.target.value)}
-                                className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
-                              >
-                                <option value="2023/2024">2023/2024</option>
-                                <option value="2024/2025">2024/2025</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="overflow-x-auto">
-                          {/* Mobile View */}
-                          <div className="md:hidden">
-                            {nilaiSiswa.map((n) => (
-                              <div key={n.id} className="p-4 border-b border-[#E5E7EB]">
-                                <div className="flex justify-between items-center mb-2">
-                                  <h5 className="font-semibold text-[#1F2937]">{n.siswa.nama}</h5>
-                                  <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
-                                    Nilai: {n.nilai}
-                                  </span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2 text-sm mb-3">
-                                  <div>
-                                    <p className="text-gray-500">NIS</p>
-                                    <p>{n.siswa.nis}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-gray-500">Kelas</p>
-                                    <p>{n.siswa.kelas}</p>
-                                  </div>
-                                  <div className="col-span-2">
-                                    <p className="text-gray-500">Mata Pelajaran</p>
-                                    <p>{n.mata_pelajaran.nama_mapel}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-gray-500">Semester</p>
-                                    <p>{n.semester}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-gray-500">Tahun</p>
-                                    <p>{n.tahun_ajar}</p>
-                                  </div>
-                                </div>
-                                <div className="flex justify-end gap-3 mt-2">
-                                  <button
-                                    onClick={() => handleEditNilai(n)}
-                                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() => handleDeleteNilai(n.id)}
-                                    className="text-red-600 hover:text-red-800 text-sm font-medium"
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
-                            {nilaiSiswa.length === 0 && (
-                              <div className="p-8 text-center text-[#6B7280]">
-                                No grades available
-                              </div>
-                            )}
-                          </div>
-                          
-                          {/* Desktop View */}
-                          <table className="w-full hidden md:table">
-                            <thead className="bg-gray-50">
-                              <tr>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nama Siswa</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">NIS</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Kelas</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-[#E5E7EB]">
-                              {nilaiSiswa.map((n) => (
-                                <tr key={n.id} className="hover:bg-gray-50">
-                                  <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.siswa.nama}</td>
-                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.siswa.nis}</td>
-                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.siswa.kelas}</td>
-                                  <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.mata_pelajaran.nama_mapel}</td>
-                                  <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
-                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester} {n.tahun_ajar}</td>
-                                  <td className="px-4 py-3">
-                                    <div className="flex gap-2">
-                                      <button
-                                        onClick={() => handleEditNilai(n)}
-                                        className="text-blue-600 hover:text-blue-800"
-                                      >
-                                        Edit
-                                      </button>
-                                      <button
-                                        onClick={() => handleDeleteNilai(n.id)}
-                                        className="text-red-600 hover:text-red-800"
-                                      >
-                                        Delete
-                                      </button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))}
-                              {nilaiSiswa.length === 0 && (
-                                <tr>
-                                  <td colSpan={7} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                    No grades available
-                                  </td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </table>
-                        </div>
+                {/* Content sections based on navigation state */}
+                {!showNilai && !showJadwalLengkap && (
+                  <>
+                    {/* Today's Schedule section */}
+                    <section className="bg-white rounded-xl shadow-sm overflow-hidden p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight">
+                          Today's Schedule
+                        </h3>
+                        <p className="text-[#6B7280] text-sm font-medium">
+                          {getCurrentDayName()}
+                        </p>
                       </div>
-                    )}
-
-                    {showJadwalLengkap && (
-                      <div className="rounded-lg border border-[#E5E7EB] overflow-hidden">
-                        <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
-                          <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-                            <h4 className="text-[#1F2937] text-sm font-semibold">Jadwal Mengajar</h4>
-                            <div className="w-full sm:w-auto flex items-center gap-2">
-                              <label htmlFor="day-filter" className="text-sm text-gray-600 whitespace-nowrap">Filter hari:</label>
-                              <select
-                                id="day-filter"
-                                value={selectedDay}
-                                onChange={(e) => {
-                                  setSelectedDay(e.target.value as Hari | '');
-                                  setTimeout(() => {
-                                    handleViewSchedule();
-                                  }, 100);
-                                }}
-                                className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
-                              >
-                                <option value="">Semua Hari</option>
-                                {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
-                                  <option key={hari} value={hari}>{hari}</option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="overflow-x-auto">
-                          {/* Mobile View */}
-                          <div className="md:hidden">
-                            {jadwalLengkap.length > 0 ? (
-                              jadwalLengkap.map((j) => (
-                                <div key={j.id} className="p-4 border-b border-[#E5E7EB]">
-                                  <div className="flex justify-between items-center mb-2">
-                                    <h5 className="font-semibold text-[#1F2937]">{j.hari}</h5>
-                                    <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
-                                      Kelas {j.kelas}
-                                    </span>
-                                  </div>
-                                  <div className="grid grid-cols-1 gap-2 text-sm mb-3">
-                                    <div>
-                                      <p className="text-gray-500">Mata Pelajaran</p>
-                                      <p className="font-medium">{j.mata_pelajaran.nama_mapel}</p>
-                                    </div>
-                                    <div>
-                                      <p className="text-gray-500">Waktu</p>
-                                      <p>{formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="p-8 text-center text-[#6B7280]">
-                                {selectedDay ? `No classes scheduled for ${selectedDay}` : 'No classes scheduled'}
-                              </div>
-                            )}
-                          </div>
-                          
-                          {/* Desktop View */}
-                          <table className="w-full hidden md:table">
+                      <div className="@container">
+                        <div className="overflow-x-auto rounded-lg border border-[#E5E7EB]">
+                          <table className="w-full">
                             <thead className="bg-gray-50">
                               <tr>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Hari</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Waktu</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
-                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Kelas</th>
+                                <th className="table-cell-time w-1/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Time</th>
+                                <th className="table-cell-course w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Subject</th>
+                                <th className="table-cell-room w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Class</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-[#E5E7EB]">
-                              {jadwalLengkap.length > 0 ? (
-                                jadwalLengkap.map((j) => (
-                                  <tr key={j.id} className="hover:bg-gray-50">
-                                    <td className="px-4 py-3 text-sm text-[#1F2937]">{j.hari}</td>
-                                    <td className="px-4 py-3 text-sm text-[#6B7280] whitespace-nowrap">
+                              {jadwal.length > 0 ? (
+                                jadwal.map((j) => (
+                                  <tr key={j.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-4 py-3 text-[#1F2937] text-sm font-medium whitespace-nowrap">
                                       {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-[#1F2937]">{j.mata_pelajaran.nama_mapel}</td>
-                                    <td className="px-4 py-3 text-sm text-[#6B7280]">Kelas {j.kelas}</td>
+                                    <td className="px-4 py-3">
+                                      <div className="flex flex-col">
+                                        <span className="text-[#1F2937] text-sm font-medium">
+                                          {j.mata_pelajaran.nama_mapel}
+                                        </span>
+                                      </div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <span className="text-[#6B7280] text-sm">Kelas {j.kelas}</span>
+                                    </td>
                                   </tr>
                                 ))
                               ) : (
                                 <tr>
-                                  <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                    {selectedDay 
-                                      ? `No classes scheduled for ${selectedDay}` 
-                                      : 'No classes scheduled'}
+                                  <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                    No classes scheduled for {getCurrentDayName().toLowerCase()}
                                   </td>
                                 </tr>
                               )}
@@ -889,123 +691,363 @@ export default function GuruDashboard() {
                           </table>
                         </div>
                       </div>
-                    )}
-                  </div>
-                </section>
+                    </section>
 
-                {/* School Updates section */}
-                <section className="bg-white p-6 rounded-xl shadow-lg">
-                  <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-6">School Updates</h3>
-                  <div className="space-y-6">
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="flex flex-col md:flex-row items-start gap-4 p-4 border border-[#E5E7EB] rounded-lg hover:shadow-md transition-shadow">
-                        <div className="w-full md:w-2/3 flex flex-col gap-1">
-                          <p className={`${announcement.type === 'Important' ? 'text-[#4F46E5]' : 'text-green-600'} text-xs font-semibold uppercase tracking-wider`}>
-                            {announcement.type}
-                          </p>
-                          <h4 className="text-[#1F2937] text-lg font-semibold leading-tight">{announcement.title}</h4>
-                          <p className="text-[#6B7280] text-sm font-normal leading-relaxed">{announcement.content}</p>
-                        </div>
-                        <div 
-                          className="w-full md:w-1/3 bg-center bg-no-repeat aspect-video bg-cover rounded-md" 
-                          style={{ backgroundImage: `url("${announcement.image}")` }}
-                        ></div>
+                    {/* School Updates section */}
+                    <section className="bg-white rounded-xl shadow-sm overflow-hidden p-6">
+                      <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight mb-6">School Updates</h3>
+                      <div className="space-y-6">
+                        {announcements.map((announcement, index) => (
+                          <div key={index} className="flex flex-col md:flex-row items-start gap-4 p-4 border border-[#E5E7EB] rounded-lg hover:shadow-md transition-shadow">
+                            <div className="w-full md:w-2/3 flex flex-col gap-1">
+                              <p className={`${announcement.type === 'Important' ? 'text-[#4F46E5]' : 'text-green-600'} text-xs font-semibold uppercase tracking-wider`}>
+                                {announcement.type}
+                              </p>
+                              <h4 className="text-[#1F2937] text-lg font-semibold leading-tight">{announcement.title}</h4>
+                              <p className="text-[#6B7280] text-sm font-normal leading-relaxed">{announcement.content}</p>
+                            </div>
+                            <div 
+                              className="w-full md:w-1/3 bg-center bg-no-repeat aspect-video bg-cover rounded-md" 
+                              style={{ backgroundImage: `url("${announcement.image}")` }}
+                            ></div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </section>
+                    </section>
+                  </>
+                )}
 
-                <footer className="text-center py-6 border-t border-[#E5E7EB] bg-[#F3F4F6]">
-          <p className="text-sm text-[#6B7280]">© 2024 CampusConnect. All rights reserved.</p>
-        </footer>
-              </>
+                {showNilai && (
+                  <section className="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight">
+                          Nilai Siswa
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          <select
+                            value={selectedKelas}
+                            onChange={(e) => setSelectedKelas(e.target.value)}
+                            className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                          >
+                            <option value="">Semua Kelas</option>
+                            {kelasList.map((kelas) => (
+                              <option key={kelas} value={kelas}>Kelas {kelas}</option>
+                            ))}
+                          </select>
+                          <select
+                            value={selectedSemester}
+                            onChange={(e) => setSelectedSemester(e.target.value as 'Ganjil' | 'Genap')}
+                            className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                          >
+                            <option value="Ganjil">Semester Ganjil</option>
+                            <option value="Genap">Semester Genap</option>
+                          </select>
+                          <select
+                            value={selectedTahun}
+                            onChange={(e) => setSelectedTahun(e.target.value)}
+                            className="flex-1 min-w-[120px] px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
+                          >
+                            <option value="2023/2024">2023/2024</option>
+                            <option value="2024/2025">2024/2025</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="overflow-x-auto">
+                        {/* Mobile View */}
+                        <div className="md:hidden">
+                          {nilaiSiswa.map((n) => (
+                            <div key={n.id} className="p-4 border-b border-[#E5E7EB]">
+                              <div className="flex justify-between items-center mb-2">
+                                <h5 className="font-semibold text-[#1F2937]">{n.siswa.nama}</h5>
+                                <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
+                                  Nilai: {n.nilai}
+                                </span>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                                <div>
+                                  <p className="text-gray-500">NIS</p>
+                                  <p>{n.siswa.nis}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">Kelas</p>
+                                  <p>{n.siswa.kelas}</p>
+                                </div>
+                                <div className="col-span-2">
+                                  <p className="text-gray-500">Mata Pelajaran</p>
+                                  <p>{n.mata_pelajaran.nama_mapel}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">Semester</p>
+                                  <p>{n.semester}</p>
+                                </div>
+                                <div>
+                                  <p className="text-gray-500">Tahun</p>
+                                  <p>{n.tahun_ajar}</p>
+                                </div>
+                              </div>
+                              <div className="flex justify-end gap-3 mt-2">
+                                <button
+                                  onClick={() => handleEditNilai(n)}
+                                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteNilai(n.id)}
+                                  className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                          {nilaiSiswa.length === 0 && (
+                            <div className="p-8 text-center text-[#6B7280]">
+                              No grades available
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Desktop View */}
+                        <table className="w-full hidden md:table">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nama Siswa</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">NIS</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Kelas</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E5E7EB]">
+                            {nilaiSiswa.map((n) => (
+                              <tr key={n.id} className="hover:bg-gray-50">
+                                <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.siswa.nama}</td>
+                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.siswa.nis}</td>
+                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.siswa.kelas}</td>
+                                <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.mata_pelajaran.nama_mapel}</td>
+                                <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
+                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester} {n.tahun_ajar}</td>
+                                <td className="px-4 py-3">
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => handleEditNilai(n)}
+                                      className="text-blue-600 hover:text-blue-800"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteNilai(n.id)}
+                                      className="text-red-600 hover:text-red-800"
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            {nilaiSiswa.length === 0 && (
+                              <tr>
+                                <td colSpan={7} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                  No grades available
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </section>
+                )}
+
+                {showJadwalLengkap && (
+                  <section className="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-[#1F2937] text-xl md:text-2xl font-bold leading-tight tracking-tight">
+                          Jadwal Mengajar
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          <label htmlFor="day-filter" className="text-sm text-gray-600 whitespace-nowrap">Filter hari:</label>
+                          <select
+                            id="day-filter"
+                            value={selectedDay}
+                            onChange={(e) => {
+                              setSelectedDay(e.target.value as Hari | '');
+                              setTimeout(() => {
+                                handleViewSchedule();
+                              }, 100);
+                            }}
+                            className="rounded-lg border border-[#E5E7EB] px-3 py-2 text-sm"
+                          >
+                            <option value="">Semua Hari</option>
+                            {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
+                              <option key={hari} value={hari}>{hari}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="overflow-x-auto">
+                        {/* Mobile View */}
+                        <div className="md:hidden">
+                          {jadwalLengkap.length > 0 ? (
+                            jadwalLengkap.map((j) => (
+                              <div key={j.id} className="p-4 border-b border-[#E5E7EB]">
+                                <div className="flex justify-between items-center mb-2">
+                                  <h5 className="font-semibold text-[#1F2937]">{j.hari}</h5>
+                                  <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm font-semibold">
+                                    Kelas {j.kelas}
+                                  </span>
+                                </div>
+                                <div className="grid grid-cols-1 gap-2 text-sm mb-3">
+                                  <div>
+                                    <p className="text-gray-500">Mata Pelajaran</p>
+                                    <p className="font-medium">{j.mata_pelajaran.nama_mapel}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-gray-500">Waktu</p>
+                                    <p>{formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="p-8 text-center text-[#6B7280]">
+                              {selectedDay ? `No classes scheduled for ${selectedDay}` : 'No classes scheduled'}
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Desktop View */}
+                        <table className="w-full hidden md:table">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Hari</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Waktu</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Kelas</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E5E7EB]">
+                            {jadwalLengkap.length > 0 ? (
+                              jadwalLengkap.map((j) => (
+                                <tr key={j.id} className="hover:bg-gray-50">
+                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{j.hari}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280] whitespace-nowrap">
+                                    {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                                  </td>
+                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{j.mata_pelajaran.nama_mapel}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280]">Kelas {j.kelas}</td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                  {selectedDay 
+                                    ? `No classes scheduled for ${selectedDay}` 
+                                    : 'No classes scheduled'}
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </section>
+                )}
+              </div>
             ) : (
-              <div className="text-center">No data available</div>
+              <div className="flex h-[calc(100vh-8rem)] items-center justify-center">
+                <div className="text-center text-gray-500">No data available</div>
+              </div>
             )}
           </div>
         </main>
+      </div>
 
-        {/* Add Modal */}
-        {showModal && (
-          <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">
-                  {isEditMode ? 'Edit Nilai' : 'Add Nilai'}
-                </h3>
-                <button 
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">
+                {isEditMode ? 'Edit Nilai' : 'Add Nilai'}
+              </h3>
+              <button 
+                onClick={() => setShowModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <span className="material-icons-outlined">close</span>
+              </button>
+            </div>
+            <form onSubmit={handleSaveNilai} className="space-y-4">
+              {!isEditMode && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Siswa</label>
+                    <select
+                      value={editingNilai?.siswa_id || ''}
+                      onChange={(e) => setEditingNilai(prev => ({...prev!, siswa_id: Number(e.target.value)}))}
+                      className="w-full rounded-lg border border-gray-300 p-2 text-sm"
+                      required
+                    >
+                      <option value="">Pilih Siswa</option>
+                      {availableSiswa.map(s => (
+                        <option key={s.id} value={s.id}>
+                          {s.nama} - {s.nis} (Kelas {s.kelas})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Mata Pelajaran</label>
+                    <select
+                      value={editingNilai?.mapel_id || ''}
+                      onChange={(e) => setEditingNilai(prev => ({...prev!, mapel_id: Number(e.target.value)}))}
+                      className="w-full rounded-lg border border-gray-300 p-2 text-sm"
+                      required
+                    >
+                      {availableMapel.map(m => (
+                        <option key={m.id} value={m.id}>{m.nama_mapel}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
+              <div>
+                <label className="block text-sm font-medium mb-1">Nilai</label>
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={editingNilai?.nilai || ''}
+                  onChange={(e) => setEditingNilai(prev => ({...prev!, nilai: Number(e.target.value)}))}
+                  className="w-full rounded-lg border border-gray-300 p-2 text-sm"
+                  required
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-4 mt-6">
+                <button
+                  type="button"
                   onClick={() => setShowModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
                 >
-                  <span className="material-icons-outlined">close</span>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-indigo-700"
+                >
+                  Save
                 </button>
               </div>
-              <form onSubmit={handleSaveNilai} className="space-y-4">
-                {!isEditMode && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Siswa</label>
-                      <select
-                        value={editingNilai?.siswa_id || ''}
-                        onChange={(e) => setEditingNilai(prev => ({...prev!, siswa_id: Number(e.target.value)}))}
-                        className="w-full rounded-lg border border-gray-300 p-2 text-sm"
-                        required
-                      >
-                        <option value="">Pilih Siswa</option>
-                        {availableSiswa.map(s => (
-                          <option key={s.id} value={s.id}>
-                            {s.nama} - {s.nis} (Kelas {s.kelas})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Mata Pelajaran</label>
-                      <select
-                        value={editingNilai?.mapel_id || ''}
-                        onChange={(e) => setEditingNilai(prev => ({...prev!, mapel_id: Number(e.target.value)}))}
-                        className="w-full rounded-lg border border-gray-300 p-2 text-sm"
-                        required
-                      >
-                        {availableMapel.map(m => (
-                          <option key={m.id} value={m.id}>{m.nama_mapel}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </>
-                )}
-                <div>
-                  <label className="block text-sm font-medium mb-1">Nilai</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={editingNilai?.nilai || ''}
-                    onChange={(e) => setEditingNilai(prev => ({...prev!, nilai: Number(e.target.value)}))}
-                    className="w-full rounded-lg border border-gray-300 p-2 text-sm"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-end gap-2 sm:gap-4 mt-6">
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto px-4 py-2 bg-[#4F46E5] text-white rounded-lg hover:bg-indigo-700"
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
+            </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
