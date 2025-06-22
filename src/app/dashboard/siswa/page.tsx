@@ -377,92 +377,142 @@ export default function SiswaDashboard() {
                         </span>
                       </button>
                     </div>
-                  </div>
-
-                  {/* Desktop View */}
-                  <div className="hidden md:block">
-                    <div className="flex flex-col gap-4 sm:gap-6">
-                      <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-6">
-                        <div className="shrink-0">
-                          <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                            <span className="material-icons-outlined text-gray-400" style={{ fontSize: '3rem' }}>account_circle</span>
+                  </div>                    {/* Desktop View */}
+                    <div className="hidden md:block">
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-start gap-6">
+                          <div className="shrink-0">
+                            <div className="bg-gray-200 aspect-square bg-cover rounded-full h-32 w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
+                              <span className="material-icons-outlined text-gray-400" style={{ fontSize: '3rem' }}>account_circle</span>
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h2 className="text-[var(--text-primary)] text-2xl font-bold">{profile?.nama}</h2>
+                                <div className="mt-1 flex items-center gap-4">
+                                  <p className="text-[var(--text-secondary)]">NIS: {profile?.nis}</p>
+                                  <p className="text-[var(--text-secondary)]">Kelas {profile?.kelas}</p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={handleViewDetail}
+                                className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                              >
+                                {isExpanded ? 'Show Less' : 'See More Information'}
+                                <span className="material-icons-outlined text-base">
+                                  {isExpanded ? 'expand_less' : 'expand_more'}
+                                </span>
+                              </button>
+                            </div>
+                            <div className="mt-6 grid grid-cols-2 gap-4">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
+                                  <span className="text-sm text-[var(--text-secondary)]">Gender</span>
+                                </div>
+                                <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
+                                  <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
+                                </div>
+                                <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
+                                  <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
+                                </div>
+                                <p className="mt-1 text-[var(--text-primary)]">
+                                  {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                                </p>
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
+                                  <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
+                                </div>
+                                <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex-1 flex flex-col items-center md:items-start">
-                          <h2 className="text-[var(--text-primary)] text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight text-center md:text-left">{profile?.nama}</h2>
-                          <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">NIS: {profile?.nis}</p>
-                          <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">Kelas {profile?.kelas}</p>
-                          <button
-                            onClick={handleViewDetail}
-                            className="mt-2 text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                          >
-                            {isExpanded ? 'Show Less' : 'See More Information'}
-                            <span className="material-icons-outlined text-base">
-                              {isExpanded ? 'expand_less' : 'expand_more'}
-                            </span>
-                          </button>
-                        </div>
                       </div>
-                    </div>
 
                     {/* Expandable Detail Section */}
-                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-[var(--text-secondary)]">Gender</p>
-                        <p className="font-medium">{profile?.gender}</p>
-                      </div>
-                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
-                        <p className="font-medium">{profile?.tempat_lahir || '-'}</p>
-                      </div>
-                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
-                        <p className="font-medium">
-                          {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                        </p>
-                      </div>
-                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg md:col-span-2">
-                        <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
-                        <p className="font-medium">{profile?.alamat || '-'}</p>
+                    <div className={`mt-6 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="border-t border-[var(--border-color)] pt-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                          <div className="sm:col-span-2">
+                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Personal Information</h4>
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Gender</dt>
+                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.gender}</dd>
+                                </div>
+                                <div>
+                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Tempat Lahir</dt>
+                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</dd>
+                                </div>
+                                <div>
+                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Tanggal Lahir</dt>
+                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">
+                                    {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                                  </dd>
+                                </div>
+                                <div>
+                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Alamat</dt>
+                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.alamat || '-'}</dd>
+                                </div>
+                              </dl>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </section>
 
                 <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
-                    <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight">
-                      Today's Schedule
-                    </h3>
-                    <p className="text-[var(--text-secondary)] text-sm font-medium">
-                      {getCurrentDayName()}
-                    </p>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
+                    <div>
+                      <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight mb-1">
+                        Today's Schedule
+                      </h3>
+                      <p className="text-[var(--text-secondary)] text-sm">
+                        {getCurrentDayName()}
+                      </p>
+                    </div>
                   </div>
                   <div className="@container">
                     {/* Mobile View */}
-                    <div className="md:hidden space-y-4">
+                    <div className="md:hidden">
                       {jadwal.length > 0 ? (
-                        jadwal.map((j) => (
-                          <div key={j.id} className="border rounded-lg p-4">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <h4 className="font-medium text-[var(--text-primary)]">
-                                  {j.mata_pelajaran.nama_mapel}
-                                </h4>
-                                <p className="text-sm text-[var(--text-secondary)]">Kelas {j.kelas}</p>
+                        <div className="grid gap-4">
+                          {jadwal.map((j) => (
+                            <div key={j.id} className="bg-gray-50 rounded-lg p-4">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">
+                                    {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                                  </p>
+                                  <h4 className="font-medium text-[var(--text-primary)]">
+                                    {j.mata_pelajaran.nama_mapel}
+                                  </h4>
+                                </div>
                               </div>
-                              <span className="text-sm font-medium text-[var(--text-primary)]">
-                                {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="size-8 rounded-full bg-[#F3F4F6] flex items-center justify-center">
-                                <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                              <div className="flex items-center gap-2">
+                                <div className="size-8 rounded-full bg-white flex items-center justify-center">
+                                  <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                                </div>
+                                <span className="text-sm text-[var(--text-secondary)]">{j.guru.nama}</span>
                               </div>
-                              <span className="text-sm text-[var(--text-secondary)]">{j.guru.nama}</span>
                             </div>
-                          </div>
-                        ))
+                          ))}
+                        </div>
                       ) : (
                         <div className="text-center py-8 text-[var(--text-secondary)]">
                           No classes scheduled for {getCurrentDayName().toLowerCase()}
@@ -471,51 +521,55 @@ export default function SiswaDashboard() {
                     </div>
 
                     {/* Desktop View */}
-                    <div className="hidden md:block overflow-x-auto -mx-4 sm:mx-0 sm:rounded-lg border border-[var(--border-color)]">
-                      <table className="w-full">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th className="table-cell-time w-1/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Time</th>
-                            <th className="table-cell-course w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Subject</th>
-                            <th className="table-cell-room w-2/5 px-4 py-3 text-left text-[#1F2937] text-xs sm:text-sm font-semibold uppercase tracking-wider">Teacher</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[#E5E7EB]">
-                          {jadwal.length > 0 ? (
-                            jadwal.map((j) => (
-                              <tr key={j.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-3 text-[#1F2937] text-sm font-medium whitespace-nowrap">
-                                  {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="flex flex-col">
-                                    <span className="text-[#1F2937] text-sm font-medium">
-                                      {j.mata_pelajaran.nama_mapel}
+                    <div className="hidden md:block">
+                      <div className="rounded-lg border border-[var(--border-color)] overflow-hidden">
+                        <table className="w-full">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase tracking-wider">Time</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase tracking-wider">Subject</th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase tracking-wider">Teacher</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#E5E7EB]">
+                            {jadwal.length > 0 ? (
+                              jadwal.map((j) => (
+                                <tr key={j.id} className="hover:bg-gray-50">
+                                  <td className="px-4 py-3">
+                                    <span className="text-sm text-[#1F2937] whitespace-nowrap">
+                                      {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
                                     </span>
-                                    <span className="text-[#6B7280] text-xs">
-                                      Kelas {j.kelas}
-                                    </span>
-                                  </div>
-                                </td>
-                                <td className="px-4 py-3">
-                                  <div className="flex items-center gap-2">
-                                    <div className="size-8 rounded-full bg-[#F3F4F6] flex items-center justify-center">
-                                      <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <div className="flex flex-col">
+                                      <span className="text-sm text-[#1F2937] font-medium">
+                                        {j.mata_pelajaran.nama_mapel}
+                                      </span>
+                                      <span className="text-xs text-[var(--text-secondary)]">
+                                        Kelas {j.kelas}
+                                      </span>
                                     </div>
-                                    <span className="text-[#6B7280] text-sm">{j.guru.nama}</span>
-                                  </div>
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    <div className="flex items-center gap-2">
+                                      <div className="size-8 rounded-full bg-[#F3F4F6] flex items-center justify-center">
+                                        <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                                      </div>
+                                      <span className="text-sm text-[var(--text-secondary)]">{j.guru.nama}</span>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={3} className="px-4 py-8 text-center text-[var(--text-secondary)] text-sm">
+                                  No classes scheduled for {getCurrentDayName().toLowerCase()}
                                 </td>
                               </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan={3} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                No classes scheduled for {getCurrentDayName().toLowerCase()}
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -530,7 +584,7 @@ export default function SiswaDashboard() {
                       <span className="material-icons-outlined">
                         {showNilai ? 'close' : 'assessment'}
                       </span>
-                      <span className="hidden sm:inline">{showNilai ? 'Close Grades' : 'View Grades'}</span>
+                      <span>{showNilai ? 'Close Grades' : 'View Grades'}</span>
                     </button>
                     
                     <button 
@@ -540,7 +594,7 @@ export default function SiswaDashboard() {
                       <span className="material-icons-outlined">
                         {showJadwalLengkap ? 'close' : 'import_contacts'}
                       </span>
-                      <span className="hidden sm:inline">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
+                      <span>{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
                     </button>
                   </div>
                   
