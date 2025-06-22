@@ -530,7 +530,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '10rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -573,12 +573,11 @@ export default function GuruDashboard() {
                           <p className="text-[#1F2937] font-medium">{profile.gender}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-[#6B7280]">Tempat Lahir</p>
-                          <p className="text-[#1F2937] font-medium">{profile.tempat_lahir || '-'}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-[#6B7280]">Tanggal Lahir</p>
-                          <p className="text-[#1F2937] font-medium">{profile.tanggal_lahir || '-'}</p>
+                          <p className="text-sm text-[var(--text-secondary)]">Tempat, Tanggal Lahir</p>
+                          <p className="mt-1 text-sm text-[var(--text-primary)]">
+                            {profile?.tempat_lahir}{profile?.tempat_lahir && profile?.tanggal_lahir ? ', ' : ''}
+                            {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : ''}
+                          </p>
                         </div>
                         <div className="md:col-span-2">
                           <p className="text-sm text-[#6B7280]">Alamat</p>
