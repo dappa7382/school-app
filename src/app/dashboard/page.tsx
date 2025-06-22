@@ -439,7 +439,10 @@ export default function SiswaDashboard() {
                               </div>
                             </div>
                             <div className="mt-6">
-                              {/* Desktop profile info removed */}
+                              <div className="flex items-center gap-4">
+                                <p className="text-[var(--text-primary)]">NIS: {profile?.nis}</p>
+                                <p className="text-[var(--text-primary)]">Kelas {profile?.kelas}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
