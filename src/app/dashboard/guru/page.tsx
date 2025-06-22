@@ -665,7 +665,7 @@ export default function GuruDashboard() {
                         className={`w-full flex items-center justify-center gap-2 cursor-pointer overflow-hidden rounded-lg h-12 px-4 ${showJadwalLengkap ? 'bg-gray-300' : 'bg-[#F3F4F6]'} text-[#1F2937] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[#E5E7EB]`}
                       >
                         <span className="material-icons-outlined icon-size text-base">import_contacts</span>
-                        <span className="truncate">{showJadwalLengkap ? 'Tutup Jadwal' : 'Schedules'}</span>
+                        <span className="truncate">{showJadwalLengkap ? 'Schedules' : 'Schedules'}</span>
                       </button>
                     </div>
 
