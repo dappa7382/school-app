@@ -843,7 +843,7 @@ export default function GuruDashboard() {
                                 className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
                                 <option value="">Semua Hari</option>
-                                {(['Semua Hari','Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
+                                {(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'] as Hari[]).map((hari) => (
                                   <option key={hari} value={hari}>{hari}</option>
                                 ))}
                               </select>
