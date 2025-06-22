@@ -360,22 +360,26 @@ export default function SiswaDashboard() {
                 <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg @container">
                   {/* Mobile View */}
                   <div className="md:hidden">
-                    <div className="flex flex-col items-center text-center">
-                      <div className="bg-gray-200 aspect-square bg-cover rounded-full h-24 w-24 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center mb-4">
-                        <span className="material-icons-outlined text-gray-400" style={{ fontSize: '2.5rem' }}>account_circle</span>
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0">
+                        <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '2.5rem' }}>account_circle</span>
+                        </div>
                       </div>
-                      <h2 className="text-xl font-bold text-[var(--text-primary)] mb-1">{profile?.nama}</h2>
-                      <p className="text-[var(--text-secondary)] text-sm">NIS: {profile?.nis}</p>
-                      <p className="text-[var(--text-secondary)] text-sm mb-3">Kelas {profile?.kelas}</p>
-                      <button
-                        onClick={handleViewDetail}
-                        className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                      >
-                        {isExpanded ? 'Show Less' : 'See More Information'}
-                        <span className="material-icons-outlined text-base">
-                          {isExpanded ? 'expand_less' : 'expand_more'}
-                        </span>
-                      </button>
+                      <div className="flex-1">
+                        <h2 className="text-xl font-bold text-[var(--text-primary)] mb-1">{profile?.nama}</h2>
+                        <p className="text-[var(--text-secondary)] text-sm">NIS: {profile?.nis}</p>
+                        <p className="text-[var(--text-secondary)] text-sm mb-3">Kelas {profile?.kelas}</p>
+                        <button
+                          onClick={handleViewDetail}
+                          className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                        >
+                          {isExpanded ? 'Show Less' : 'See More Information'}
+                          <span className="material-icons-outlined text-base">
+                            {isExpanded ? 'expand_less' : 'expand_more'}
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>                    {/* Desktop View */}
                     <div className="hidden md:block">
@@ -444,30 +448,42 @@ export default function SiswaDashboard() {
                     {/* Expandable Detail Section */}
                     <div className={`mt-6 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                       <div className="border-t border-[var(--border-color)] pt-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                          <div className="sm:col-span-2">
-                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Personal Information</h4>
+                        <div className="grid grid-cols-1 gap-6">
+                          <div>
+                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-4">Informasi Personal</h4>
                             <div className="bg-gray-50 rounded-lg p-4">
-                              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div>
-                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Gender</dt>
-                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.gender}</dd>
+                                  <div className="flex items-center gap-2">
+                                    <span className="material-icons-outlined text-[var(--text-secondary)]">wc</span>
+                                    <span className="text-sm text-[var(--text-secondary)]">Gender</span>
+                                  </div>
+                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.gender}</p>
                                 </div>
                                 <div>
-                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Tempat Lahir</dt>
-                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</dd>
+                                  <div className="flex items-center gap-2">
+                                    <span className="material-icons-outlined text-[var(--text-secondary)]">home</span>
+                                    <span className="text-sm text-[var(--text-secondary)]">Tempat Lahir</span>
+                                  </div>
+                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
                                 </div>
                                 <div>
-                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Tanggal Lahir</dt>
-                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">
+                                  <div className="flex items-center gap-2">
+                                    <span className="material-icons-outlined text-[var(--text-secondary)]">calendar_today</span>
+                                    <span className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</span>
+                                  </div>
+                                  <p className="mt-1 text-[var(--text-primary)]">
                                     {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                                  </dd>
+                                  </p>
                                 </div>
-                                <div>
-                                  <dt className="text-sm font-medium text-[var(--text-secondary)]">Alamat</dt>
-                                  <dd className="mt-1 text-sm text-[var(--text-primary)]">{profile?.alamat || '-'}</dd>
+                                <div className="sm:col-span-2 lg:col-span-3">
+                                  <div className="flex items-center gap-2">
+                                    <span className="material-icons-outlined text-[var(--text-secondary)]">location_on</span>
+                                    <span className="text-sm text-[var(--text-secondary)]">Alamat</span>
+                                  </div>
+                                  <p className="mt-1 text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
                                 </div>
-                              </dl>
+                              </div>
                             </div>
                           </div>
                         </div>
