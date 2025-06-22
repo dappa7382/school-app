@@ -300,6 +300,13 @@ export default function SiswaDashboard() {
         @container (max-width: 400px) {
           .table-cell-time { display: none; }
         }
+        @container (max-width: 768px) {
+          .desktop-only { display: none; }
+        }
+
+        @container (min-width: 769px) {
+          .mobile-only { display: none; }
+        }
       `}</style>
 
       <div className="flex h-full grow flex-col">
@@ -351,47 +358,73 @@ export default function SiswaDashboard() {
             ) : profile ? (
               <>
                 <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg @container">
-                  <div className="flex w-full flex-col gap-4 sm:gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-start">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-                      <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                        <span className="material-icons-outlined text-gray-400" style={{ fontSize: '5rem' }}>account_circle</span>
+                  {/* Mobile View */}
+                  <div className="md:hidden">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="bg-gray-200 aspect-square bg-cover rounded-full h-24 w-24 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center mb-4">
+                        <span className="material-icons-outlined text-gray-400" style={{ fontSize: '2.5rem' }}>account_circle</span>
                       </div>
-                      <div className="flex flex-col justify-center items-center sm:items-start">
-                        <h2 className="text-[var(--text-primary)] text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight text-center sm:text-left">{profile?.nama}</h2>
-                        <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">NIS: {profile?.nis}</p>
-                        <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">Kelas {profile?.kelas}</p>
-                        <button
-                          onClick={handleViewDetail}
-                          className="mt-2 text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
-                        >
-                          {isExpanded ? 'Show Less' : 'See More Information'}
-                          <span className="material-icons-outlined text-base">
-                            {isExpanded ? 'expand_less' : 'expand_more'}
-                          </span>
-                        </button>
-                      </div>
+                      <h2 className="text-xl font-bold text-[var(--text-primary)] mb-1">{profile?.nama}</h2>
+                      <p className="text-[var(--text-secondary)] text-sm">NIS: {profile?.nis}</p>
+                      <p className="text-[var(--text-secondary)] text-sm mb-3">Kelas {profile?.kelas}</p>
+                      <button
+                        onClick={handleViewDetail}
+                        className="text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                      >
+                        {isExpanded ? 'Show Less' : 'See More Information'}
+                        <span className="material-icons-outlined text-base">
+                          {isExpanded ? 'expand_less' : 'expand_more'}
+                        </span>
+                      </button>
                     </div>
                   </div>
 
-                  {/* Expandable Detail Section */}
-                  <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-[var(--text-secondary)]">Gender</p>
-                      <p className="font-medium">{profile?.gender}</p>
+                  {/* Desktop View */}
+                  <div className="hidden md:block">
+                    <div className="flex flex-col gap-4 sm:gap-6">
+                      <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-6">
+                        <div className="shrink-0">
+                          <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
+                            <span className="material-icons-outlined text-gray-400" style={{ fontSize: '3rem' }}>account_circle</span>
+                          </div>
+                        </div>
+                        <div className="flex-1 flex flex-col items-center md:items-start">
+                          <h2 className="text-[var(--text-primary)] text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight text-center md:text-left">{profile?.nama}</h2>
+                          <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">NIS: {profile?.nis}</p>
+                          <p className="text-[var(--text-secondary)] text-sm md:text-base font-normal leading-normal">Kelas {profile?.kelas}</p>
+                          <button
+                            onClick={handleViewDetail}
+                            className="mt-2 text-[var(--accent-color)] text-sm font-medium hover:underline flex items-center gap-1"
+                          >
+                            {isExpanded ? 'Show Less' : 'See More Information'}
+                            <span className="material-icons-outlined text-base">
+                              {isExpanded ? 'expand_less' : 'expand_more'}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
-                      <p className="font-medium">{profile?.tempat_lahir || '-'}</p>
-                    </div>
-                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
-                      <p className="font-medium">
-                        {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
-                      </p>
-                    </div>
-                    <div className="space-y-2 p-4 bg-gray-50 rounded-lg md:col-span-2">
-                      <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
-                      <p className="font-medium">{profile?.alamat || '-'}</p>
+
+                    {/* Expandable Detail Section */}
+                    <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'mt-4 sm:mt-6 max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-[var(--text-secondary)]">Gender</p>
+                        <p className="font-medium">{profile?.gender}</p>
+                      </div>
+                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
+                        <p className="font-medium">{profile?.tempat_lahir || '-'}</p>
+                      </div>
+                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
+                        <p className="font-medium">
+                          {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                        </p>
+                      </div>
+                      <div className="space-y-2 p-4 bg-gray-50 rounded-lg md:col-span-2">
+                        <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
+                        <p className="font-medium">{profile?.alamat || '-'}</p>
+                      </div>
                     </div>
                   </div>
                 </section>
@@ -406,7 +439,39 @@ export default function SiswaDashboard() {
                     </p>
                   </div>
                   <div className="@container">
-                    <div className="overflow-x-auto -mx-4 sm:mx-0 sm:rounded-lg border border-[var(--border-color)]">
+                    {/* Mobile View */}
+                    <div className="md:hidden space-y-4">
+                      {jadwal.length > 0 ? (
+                        jadwal.map((j) => (
+                          <div key={j.id} className="border rounded-lg p-4">
+                            <div className="flex justify-between items-start mb-3">
+                              <div>
+                                <h4 className="font-medium text-[var(--text-primary)]">
+                                  {j.mata_pelajaran.nama_mapel}
+                                </h4>
+                                <p className="text-sm text-[var(--text-secondary)]">Kelas {j.kelas}</p>
+                              </div>
+                              <span className="text-sm font-medium text-[var(--text-primary)]">
+                                {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="size-8 rounded-full bg-[#F3F4F6] flex items-center justify-center">
+                                <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                              </div>
+                              <span className="text-sm text-[var(--text-secondary)]">{j.guru.nama}</span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-8 text-[var(--text-secondary)]">
+                          No classes scheduled for {getCurrentDayName().toLowerCase()}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Desktop View */}
+                    <div className="hidden md:block overflow-x-auto -mx-4 sm:mx-0 sm:rounded-lg border border-[var(--border-color)]">
                       <table className="w-full">
                         <thead className="bg-gray-50">
                           <tr>
@@ -457,37 +522,39 @@ export default function SiswaDashboard() {
 
                 <section className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
                   <h3 className="text-[var(--text-primary)] text-lg sm:text-xl md:text-2xl font-bold leading-tight tracking-tight mb-4">Quick Actions</h3>
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <button 
                       onClick={handleViewGrades}
-                      className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[var(--primary-color)] text-white text-sm font-semibold leading-normal tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 h-12 px-4 bg-[var(--primary-color)] text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-colors"
                     >
-                      <span className="material-icons-outlined icon-size text-base">
+                      <span className="material-icons-outlined">
                         {showNilai ? 'close' : 'assessment'}
                       </span>
-                      <span className="truncate">{showNilai ? 'Close Grades' : 'View Grades'}</span>
+                      <span className="hidden sm:inline">{showNilai ? 'Close Grades' : 'View Grades'}</span>
                     </button>
+                    
                     <button 
                       onClick={handleViewSchedule}
-                      className="flex-1 flex items-center justify-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer overflow-hidden rounded-lg h-12 px-4 bg-[var(--secondary-color)] text-[var(--text-primary)] text-sm font-semibold leading-normal tracking-wide hover:bg-gray-200 transition-colors border border-[var(--border-color)]"
+                      className="flex items-center justify-center gap-2 h-12 px-4 bg-[var(--secondary-color)] text-[var(--text-primary)] text-sm font-semibold rounded-lg hover:bg-gray-200 transition-colors border border-[var(--border-color)]"
                     >
-                      <span className="material-icons-outlined icon-size text-base">
+                      <span className="material-icons-outlined">
                         {showJadwalLengkap ? 'close' : 'import_contacts'}
                       </span>
-                      <span className="truncate">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
+                      <span className="hidden sm:inline">{showJadwalLengkap ? 'Close Schedule' : 'Schedules'}</span>
                     </button>
                   </div>
                   
                   {showNilai && (
                     <div className="rounded-lg border border-[#E5E7EB] overflow-hidden mt-4">
-                      <div className="bg-gray-50 px-3 sm:px-4 py-3 border-b border-[#E5E7EB]">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                          <h4 className="text-[#1F2937] text-sm font-semibold">Nilai Akademik</h4>
-                          <div className="flex flex-wrap gap-2 text-sm w-full sm:w-auto">
+                      {/* Filter Controls - More Mobile Friendly */}
+                      <div className="bg-gray-50 p-4 border-b border-[#E5E7EB]">
+                        <div className="flex flex-col gap-3">
+                          <h4 className="text-[#1F2937] font-semibold">Nilai Akademik</h4>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <select
                               value={selectedSemester}
                               onChange={(e) => setSelectedSemester(e.target.value as Semester | 'all')}
-                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
+                              className="w-full border rounded px-3 py-2 text-sm"
                             >
                               <option value="all">Semua Semester</option>
                               <option value="Ganjil">Ganjil</option>
@@ -496,7 +563,7 @@ export default function SiswaDashboard() {
                             <select
                               value={selectedYear}
                               onChange={(e) => setSelectedYear(e.target.value)}
-                              className="border rounded px-2 py-1 flex-1 sm:flex-none"
+                              className="w-full border rounded px-3 py-2 text-sm"
                             >
                               <option value="all">Semua Tahun</option>
                               {availableYears.map((year) => (
@@ -506,34 +573,55 @@ export default function SiswaDashboard() {
                           </div>
                         </div>
                       </div>
-                      <div className="overflow-x-auto -mx-4 sm:mx-0">
-                        <table className="w-full">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
-                              <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Tahun</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-[#E5E7EB]">
-                            {getFilteredNilai().map((n) => (
-                              <tr key={n.id} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm text-[#1F2937]">{n.mata_pelajaran.nama_mapel}</td>
-                                <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
-                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester}</td>
-                                <td className="px-4 py-3 text-sm text-[#6B7280]">{n.tahun_ajar}</td>
-                              </tr>
-                            ))}
-                            {getFilteredNilai().length === 0 && (
+
+                      {/* Mobile View */}
+                      <div className="md:hidden">
+                        {getFilteredNilai().map((n) => (
+                          <div key={n.id} className="p-4 border-b border-[#E5E7EB]">
+                            <div className="flex justify-between items-start mb-2">
+                              <div>
+                                <h5 className="font-medium text-[var(--text-primary)]">{n.mata_pelajaran.nama_mapel}</h5>
+                                <p className="text-sm text-[var(--text-secondary)]">{n.semester} - {n.tahun_ajar}</p>
+                              </div>
+                              <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">
+                                {n.nilai}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Desktop View */}
+                      <div className="hidden md:block">
+                        <div className="overflow-x-auto -mx-4 sm:mx-0">
+                          <table className="w-full">
+                            <thead className="bg-gray-50">
                               <tr>
-                                <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
-                                  Tidak ada nilai yang sesuai dengan filter
-                                </td>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Mata Pelajaran</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Nilai</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Semester</th>
+                                <th className="px-4 py-3 text-left text-xs font-semibold text-[#1F2937] uppercase">Tahun</th>
                               </tr>
-                            )}
-                          </tbody>
-                        </table>
+                            </thead>
+                            <tbody className="divide-y divide-[#E5E7EB]">
+                              {getFilteredNilai().map((n) => (
+                                <tr key={n.id} className="hover:bg-gray-50">
+                                  <td className="px-4 py-3 text-sm text-[#1F2937]">{n.mata_pelajaran.nama_mapel}</td>
+                                  <td className="px-4 py-3 text-sm text-[#1F2937] font-medium">{n.nilai}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.semester}</td>
+                                  <td className="px-4 py-3 text-sm text-[#6B7280]">{n.tahun_ajar}</td>
+                                </tr>
+                              ))}
+                              {getFilteredNilai().length === 0 && (
+                                <tr>
+                                  <td colSpan={4} className="px-4 py-8 text-center text-[#6B7280] text-sm">
+                                    Tidak ada nilai yang sesuai dengan filter
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -543,7 +631,32 @@ export default function SiswaDashboard() {
                       <div className="bg-gray-50 px-4 py-3 border-b border-[#E5E7EB]">
                         <h4 className="text-[#1F2937] text-sm font-semibold">Jadwal Kelas {profile?.kelas}</h4>
                       </div>
-                      <div className="overflow-x-auto">
+
+                      {/* Mobile View */}
+                      <div className="md:hidden">
+                        {jadwalLengkap.map((j) => (
+                          <div key={j.id} className="p-4 border-b border-[#E5E7EB]">
+                            <div className="flex justify-between items-start mb-2">
+                              <div>
+                                <h5 className="font-medium text-[var(--text-primary)]">{j.mata_pelajaran.nama_mapel}</h5>
+                                <p className="text-sm text-[var(--text-secondary)]">{j.hari}</p>
+                                <p className="text-sm text-[var(--text-secondary)]">
+                                  {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 mt-2">
+                              <div className="size-8 rounded-full bg-[#F3F4F6] flex items-center justify-center">
+                                <span className="material-icons-outlined text-[#6B7280] text-base">person</span>
+                              </div>
+                              <span className="text-sm text-[var(--text-secondary)]">{j.guru.nama}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Desktop View */}
+                      <div className="hidden md:block overflow-x-auto">
                         <table className="w-full">
                           <thead className="bg-gray-50">
                             <tr>
