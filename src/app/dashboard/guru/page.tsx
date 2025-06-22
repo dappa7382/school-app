@@ -196,13 +196,16 @@ export default function GuruDashboard() {
             guru_id
           )
         `)
-        .eq('guru_id', profile?.id);
+        .eq('guru_id', profile?.id)
+        .order('hari')
+        .order('jam_mulai');
       
+      // Tambahkan filter hari jika ada
       if (selectedDay) {
         query = query.eq('hari', selectedDay);
       }
       
-      const { data, error } = await query.order('hari').order('jam_mulai');
+      const { data, error } = await query;
       
       if (error) {
         console.error('Error fetching schedule:', error);
@@ -210,10 +213,11 @@ export default function GuruDashboard() {
       }
 
       if (data) {
-        // Fix: map mata_pelajaran from array to object
         const fixedData = data.map((item: any) => ({
           ...item,
-          mata_pelajaran: Array.isArray(item.mata_pelajaran) ? item.mata_pelajaran[0] : item.mata_pelajaran,
+          mata_pelajaran: Array.isArray(item.mata_pelajaran) 
+            ? item.mata_pelajaran[0] 
+            : item.mata_pelajaran,
         }));
         setJadwalLengkap(fixedData);
         setShowNilai(false);
@@ -525,7 +529,7 @@ export default function GuruDashboard() {
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full min-h-24 w-24 md:min-h-32 md:w-32 border-2 border-[#4F46E5] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '6rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -833,9 +837,7 @@ export default function GuruDashboard() {
                                 value={selectedDay}
                                 onChange={(e) => {
                                   setSelectedDay(e.target.value as Hari | '');
-                                  setTimeout(() => {
-                                    handleViewSchedule();
-                                  }, 100);
+                                  handleViewSchedule(); // Hapus setTimeout
                                 }}
                                 className="flex-1 px-3 py-2 rounded-lg border border-[#E5E7EB] text-sm"
                               >
