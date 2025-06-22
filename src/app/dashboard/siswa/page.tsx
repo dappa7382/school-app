@@ -400,6 +400,21 @@ export default function SiswaDashboard() {
                                   <p className="text-sm text-[var(--text-secondary)]">Kelas</p>
                                   <p className="mt-1 text-sm text-[var(--text-primary)]">Kelas {profile?.kelas}</p>
                                 </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Gender</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.gender}</p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Tempat, Tanggal Lahir</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">
+                                    {profile?.tempat_lahir}{profile?.tempat_lahir && profile?.tanggal_lahir ? ', ' : ''}
+                                    {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : ''}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -459,6 +474,21 @@ export default function SiswaDashboard() {
                                   <tr>
                                     <td className="py-3 text-sm text-[var(--text-secondary)]">Kelas</td>
                                     <td className="py-3 text-sm text-[var(--text-primary)] font-medium">Kelas {profile?.kelas}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Jenis Kelamin</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.gender}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Tempat, Tanggal Lahir</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">
+                                      {profile?.tempat_lahir}{profile?.tempat_lahir && profile?.tanggal_lahir ? ', ' : ''}
+                                      {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : ''}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="py-3 text-sm text-[var(--text-secondary)]">Alamat</td>
+                                    <td className="py-3 text-sm text-[var(--text-primary)] font-medium">{profile?.alamat || '-'}</td>
                                   </tr>
 
                                 </tbody>
