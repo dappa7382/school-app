@@ -363,7 +363,7 @@ export default function SiswaDashboard() {
                     <div className="flex items-start gap-4">
                       <div className="shrink-0">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '6rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
                         </div>
                       </div>
                       <div className="flex-1">
@@ -380,6 +380,39 @@ export default function SiswaDashboard() {
                               {isExpanded ? 'expand_less' : 'expand_more'}
                             </span>
                           </button>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    {/* Mobile Expandable Detail Section */}
+                    <div className={`mt-4 transition-all duration-300 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                      <div className="border-t border-[var(--border-color)] pt-4">
+                        <div className="grid grid-cols-1 gap-4">
+                          <div>
+                            <h4 className="text-sm font-medium text-[var(--text-secondary)] mb-3">Detail Informasi Siswa</h4>
+                            <div className="bg-gray-50 rounded-lg p-4">
+                              <div className="space-y-3">
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Gender</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.gender}</p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Tempat Lahir</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.tempat_lahir || '-'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Tanggal Lahir</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">
+                                    {profile?.tanggal_lahir ? new Date(profile.tanggal_lahir).toLocaleDateString('id-ID') : '-'}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-sm text-[var(--text-secondary)]">Alamat</p>
+                                  <p className="mt-1 text-sm text-[var(--text-primary)]">{profile?.alamat || '-'}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
