@@ -363,7 +363,7 @@ export default function SiswaDashboard() {
                     <div className="flex items-start gap-4">
                       <div className="shrink-0">
                         <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '5rem' }}>account_circle</span>
                         </div>
                       </div>
                       <div className="flex-1">
