@@ -529,8 +529,8 @@ export default function GuruDashboard() {
                   <div className="p-6">
                     <div className="flex w-full flex-col gap-6 @[600px]:flex-row @[600px]:justify-between @[600px]:items-center">
                       <div className="flex items-center gap-6">
-                        <div className="bg-gray-200 aspect-square bg-cover rounded-full h-24 w-24 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
-                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '8rem' }}>account_circle</span>
+                        <div className="bg-gray-200 aspect-square bg-cover rounded-full h-20 w-20 border-2 border-[var(--accent-color)] shadow-md flex items-center justify-center">
+                          <span className="material-icons-outlined text-gray-400" style={{ fontSize: '6rem' }}>account_circle</span>
                         </div>
                         <div className="flex flex-col justify-center">
                           <h2 className="text-[#1F2937] text-2xl md:text-3xl font-bold leading-tight tracking-tight">{profile.nama}</h2>
@@ -599,7 +599,33 @@ export default function GuruDashboard() {
                     </p>
                   </div>
                   <div className="@container">
-                    <div className="overflow-x-auto rounded-lg border border-[#E5E7EB]">
+                    {/* Mobile View */}
+                    <div className="md:hidden">
+                      {jadwal.length > 0 ? (
+                        jadwal.map((j) => (
+                          <div key={j.id} className="p-4 border border-[#E5E7EB] rounded-lg mb-3">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="text-[#1F2937] text-sm font-medium whitespace-nowrap">
+                                {formatTime(j.jam_mulai)} - {formatTime(j.jam_selesai)}
+                              </span>
+                              <span className="bg-gray-100 text-[#1F2937] px-2 py-1 rounded text-sm">
+                                Kelas {j.kelas}
+                              </span>
+                            </div>
+                            <div className="text-[#1F2937] text-sm font-medium">
+                              {j.mata_pelajaran.nama_mapel}
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-8 text-[#6B7280] text-sm">
+                          No classes scheduled for {getCurrentDayName().toLowerCase()}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Desktop View - Existing table code */}
+                    <div className="hidden md:block overflow-x-auto rounded-lg border border-[#E5E7EB]">
                       <table className="w-full">
                         <thead className="bg-gray-50">
                           <tr>
